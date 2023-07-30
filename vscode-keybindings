@@ -1,0 +1,66 @@
+// Place your key bindings in this file to override the defaults
+[
+  {
+    "command": "vscode-neovim.compositeEscape1",
+    "key": "j",
+    "when": "editorTextFocus && neovim.mode == insert",
+    "args": "j"
+  },
+  {
+    "command": "vscode-neovim.compositeEscape2",
+    "key": "k",
+    "when": "editorTextFocus && neovim.mode == insert",
+    "args": "k"
+  },
+  {
+    "command": "workbench.action.navigateLeft",
+    "key": "ctrl+h",
+  },
+  {
+    "command": "workbench.action.navigateRight",
+    "key": "ctrl+l",
+  },
+  {
+    "command": "workbench.action.navigateDown",
+    "key": "ctrl+j",
+  },
+  {
+    "command": "workbench.action.navigateUp",
+    "key": "ctrl+k",
+  },
+  {
+    "command": "workbench.action.terminal.toggleTerminal",
+    "key": "ctrl+s n",
+    "when": "neovim.mode != insert"
+  },
+  {
+    "command": "editor.action.showHover",
+    "key": "shift k",
+    "when": "neovim.mode != insert && editorTextFocus"
+  },
+  {
+    "command": "workbench.action.quickOpen",
+    "key": "space f f",
+    "when": "neovim.mode != insert && editorTextFocus"
+  },
+  {
+    "command": "workbench.action.findInFiles",
+    "key": "space /",
+    "when": "neovim.mode != insert && editorTextFocus"
+  },
+  {
+    "command": "workbench.view.explorer",
+    "key": "space e",
+    "when": "editorTextFocus && neovim.mode != insert"
+  },
+  {
+    "key": "space r e",
+    "command": "editor.action.refactor",
+    "when": "neovim.mode != insert && editorHasCodeActionsProvider && textInputFocus && !editorReadonly"
+  },
+  {
+    "key": "space r n",
+    "command": "editor.action.rename",
+    "when": "neovim.mode != insert && editorHasRenameProvider && editorTextFocus && !editorReadonly"
+  },
+]

@@ -1,0 +1,117 @@
+#!/usr/bin/env python
+
+# Program to run airflow cli commands to render every task in a dag
+# Usage: python render-tasks.py <dag_id> <execution_date>
+# If execution date is not provided, it will be set to current date
+
+import argparse
+import ast
+import pprint
+import re
+import subprocess
+from datetime import datetime
+from typing import Any, Dict, List, Optional
+
+
+def list_tasks(dag_id: str) -> List[str]:
+    """Get a list of tasks for the dag.
+
+    dag_id: the dag id.
+    """
+    cmd = f"airflow tasks list {dag_id}"
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+    (out, _) = proc.communicate()
+    tasks = out.split(b"\n")
+    return [task.decode("utf-8") for task in tasks[:-1]]
+
+
+def render_task(dag_id: str, task_id: str, execution_date: str) -> Dict[str, str]:
+    """Render the task for the given execution date
+
+    Returns a dictionary of the rendered tasks where key is the property
+    and the value is the rendered template for that property.
+    """
+    cmd = f"airflow tasks render {dag_id} {task_id} {execution_date}"
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+    (out, _) = proc.communicate()
+    out = out.decode("utf-8")
+    return dict(re.findall(r"#\s(property:\s.*)\n.*\n([\s\S]*?(?=\n.*?#))", out))
+
+
+def render_configuration(configuration: str) -> str:
+    """Render the configuration property
+    This contains the query which we want to render as sql
+
+    Returns the md string rendering of the coniguration property
+    """
+    query_config = ast.literal_eval(configuration)["query"]
+    query = query_config["query"]
+    result = f"```sql\n{query}\n```\n"
+    del query_config["query"]
+    result += f"```python\n{pprint.pformat(query_config)}\n```\n"
+    return result
+
+
+def render_sql(sql: str) -> str:
+    """Render the sql property
+
+    Returns the md string rendering of the sql property
+    """
+    return f"```sql\n{sql.strip()}\n```\n"
+
+
+def render_md(rendered_task: Dict[str, Any]) -> str:
+    """Render Markdown from rendered task
+
+    Returns a string in markdown format of the rendered task.
+    """
+    md = ""
+    for key, value in rendered_task.items():
+        md += f"### *{key}*\n"
+        if key == "property: configuration":
+            md += render_configuration(value)
+        elif key == "property: sql":
+            md += render_sql(value)
+        else:
+            md += f"```\n{value}\n```\n"
+    return f"{md}\n---\n"
+
+
+def main(dag_id: str, execution_date: str, output: Optional[str] = None):
+    tasks = list_tasks(dag_id)
+
+    rendered_tasks = {}
+    for task in tasks:
+        rendered_tasks[task] = render_task(dag_id, task, execution_date)
+
+    result = f"# Rendered Tasks for **{dag_id}**\n# {execution_date}\n"
+    for key, value in rendered_tasks.items():
+        result += f"## {key}\n"
+        result += render_md(value)
+    if output is not None:
+        with open(output, "w") as f:
+            f.write(result)
+    else:
+        print(result)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Render tasks in a dag")
+    parser.add_argument("dag_id", type=str, help="dag id")
+    # make execution_date optional, and make default value as current date
+    parser.add_argument(
+        "execution_date",
+        type=str,
+        nargs="?",
+        default=datetime.today().strftime("%Y-%m-%d"),
+        help="execution date",
+    )
+    # add optional output file argument
+    parser.add_argument("-o", "--output", type=str, help="output file")
+    args = parser.parse_args()
+
+    dag_id = args.dag_id
+    execution_date = args.execution_date
+    output = args.output
+
+    main(dag_id, execution_date, output)

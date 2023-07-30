@@ -1,0 +1,68 @@
+# improve colors
+set -g default-terminal 'screen-256color'
+
+set -g prefix C-s
+unbind C-b
+bind-key C-s send-prefix
+
+# act like vim
+setw -g mode-keys vi
+bind-key h select-pane -L
+bind-key j select-pane -D
+bind-key k select-pane -U
+bind-key l select-pane -R
+bind-key -r C-h select-window -t :-
+bind-key -r C-l select-window -t :+
+
+# split windows
+unbind %
+bind | split-window -h -c "#{pane_current_path}"
+
+unbind '"'
+bind - split-window -v -c "#{pane_current_path}"
+
+# Resize panes
+bind -n S-Up resize-pane -U 2
+bind -n S-Down resize-pane -D 2
+bind -n S-Left resize-pane -L 5
+bind -n S-Right resize-pane -R 5
+
+# start window numbers at 1 to match keyboard order with tmux window order
+set -g base-index 1
+set-window-option -g pane-base-index 1
+
+# Allow mouse
+set -g mouse on
+
+# renumber windows sequentially after closing any of them
+set -g renumber-windows on
+
+# match status bar to the theme
+set -g status-style bg='#39FFAD',fg='#333333'
+
+# remove administrative debris (session name, hostname, time) in status bar
+set -g status-left ''
+set -g status-right ''
+
+# increase scrollback lines
+set -g history-limit 10000
+
+# sort session list by name
+bind s choose-tree -swZ -O name
+
+# don't suspend-client
+unbind-key C-z
+
+unbind r
+bind r source-file ~/.tmux.conf
+
+# Local config
+if-shell "[ -f ~/.tmux.conf.local ]" 'source ~/.tmux.conf.local'
+
+# tmux plugins
+set -g @plugin 'tmux-plugins/tmux-resurrect'
+set -g @resurrect-save 'S'
+set -g @resurrect-restore 'R'
+
+# Initialize TMUX plugin manager (keep this line at the very bottom of tmux.conf)
+run '~/.tmux/plugins/tpm/tpm'
