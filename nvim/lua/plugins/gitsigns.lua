@@ -50,7 +50,7 @@ return {
     })
 
     vim.cmd([[
-      highlight GitSignsCurrentLineBlame guifg=#4F4F4F
+      highlight GitSignsCurrentLineBlame guifg=#8a8a8a
     ]])
   end,
 }
