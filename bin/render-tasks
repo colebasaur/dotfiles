@@ -12,6 +12,14 @@ import subprocess
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
+def list_dags() -> List[str]:
+    """Get a list of dags"""
+    cmd = f"airflow dags list"
+    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+    (out, _) = proc.communicate()
+    tasks = out.split(b"\n")
+    return [task.decode("utf-8") for task in tasks[:-1]]
+
 
 def list_tasks(dag_id: str) -> List[str]:
     """Get a list of tasks for the dag.

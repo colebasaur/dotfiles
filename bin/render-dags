@@ -1,0 +1,30 @@
+#!/usr/bin/env python
+
+# Program to run airflow cli commands to render every task in a dag
+# Usage: python render-tasks.py <dag_id> <execution_date>
+# If execution date is not provided, it will be set to current date
+
+from typing import List
+import subprocess
+from airflow.models.dagbag import DagBag
+
+
+def list_dags() -> List[str]:
+    """Get a list of dags."""
+    try:
+        dagbag = DagBag(include_examples=False)
+        return [dag.dag_id for dag in dagbag.dags.values()]
+    except:
+        print("do nothing")
+    return []
+
+def render_dags(dags: List[str]):
+    """Get a list of dags."""
+    print("rendering dags ", len(dags))
+    for dag in dags:
+        cmd = f"render-tasks {dag} -o ./generated/{dag}.md"
+        subprocess.Popen(cmd, stdout=subprocess.PIPE, shell=True)
+
+if __name__ == "__main__":
+    dags = list_dags()
+    render_dags(dags)
