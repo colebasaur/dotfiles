@@ -40,6 +40,9 @@ set -g renumber-windows on
 # match status bar to the theme
 set -g status-style bg='#39FFAD',fg='#333333'
 
+#turn status bar off
+set -g status off
+
 # remove administrative debris (session name, hostname, time) in status bar
 set -g status-left ''
 set -g status-right ''

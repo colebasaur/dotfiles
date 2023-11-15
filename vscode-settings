@@ -50,6 +50,7 @@
     "terminal.external.linuxExec": "iterm",
     "terminal.external.osxExec": "Iterm.app",
     "diffEditor.ignoreTrimWhitespace": false,
-    "python.defaultInterpreterPath": "/Users/coletroutman/.pyenv/versions/3.8.12/envs/airflow_3",
-    "window.zoomLevel": 1
+    "python.defaultInterpreterPath": "/Users/coletroutman/.pyenv/versions/3.10.2/envs/python-playground",
+    "window.zoomLevel": 1,
+    "git.openRepositoryInParentFolders": "never"
 }
