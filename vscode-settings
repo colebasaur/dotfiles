@@ -50,7 +50,19 @@
     "terminal.external.linuxExec": "iterm",
     "terminal.external.osxExec": "Iterm.app",
     "diffEditor.ignoreTrimWhitespace": false,
-    "python.defaultInterpreterPath": "/Users/coletroutman/.pyenv/versions/3.10.2/envs/python-playground",
+    "python.defaultInterpreterPath": "/Users/coletroutman/.pyenv/versions/3.8.12/envs/composer",
     "window.zoomLevel": 1,
-    "git.openRepositoryInParentFolders": "never"
+    "git.openRepositoryInParentFolders": "never",
+    "[dart]": {
+        "editor.formatOnSave": true,
+        "editor.formatOnType": true,
+        "editor.rulers": [
+            80
+        ],
+        "editor.selectionHighlight": false,
+        "editor.suggestSelection": "first",
+        "editor.tabCompletion": "onlySnippets",
+        "editor.wordBasedSuggestions": "off"
+    },
+    "dart.showTodos": false
 }

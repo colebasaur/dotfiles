@@ -15,7 +15,7 @@ return {
       "                                                                                   ",
       "                                                                                   ",
     }, "\n")
-    local pad = string.rep(" ", 26)
+    local pad = string.rep(" ", 19)
     local new_section = function(name, action, section)
       return { name = name, action = action, section = pad .. section }
     end
@@ -26,7 +26,7 @@ return {
       evaluate_single = true,
       header = logo,
       items = {
-        new_section("", "", "everyone, everywhere, everyday")
+        new_section("", "", "God's Word. Everyone, Everywhere, Everyday.")
       },
       content_hooks = {
         -- starter.gen_hook.adding_bullet(pad .. "░ ", false),

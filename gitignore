@@ -1,6 +1,6 @@
 *.pyc
 *.sw[nop]
-.DS_Store
+*.DS_Store
 .bundle
 .byebug_history
 .env
@@ -15,3 +15,6 @@ log/*.log
 rerun.txt
 tmp/**/*
 /tags
+.envrc
+/my_scripts
+pyrightconfig.json

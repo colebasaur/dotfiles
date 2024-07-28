@@ -14,7 +14,7 @@
   pf = push --force-with-lease
   st = status
 [core]
-  excludesfile = ~/.gitignore
+	excludesfile = /Users/coletroutman/.gitignore
   autocrlf = input
 [merge]
   ff = only
@@ -27,8 +27,8 @@
   format = ssh
 [rebase]
   autosquash = true
-[include]
-  path = ~/.gitconfig.local
+; [include]
+;   path = ~/.gitconfig.local
 [diff]
   colorMoved = zebra
 [user]

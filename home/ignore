@@ -1,2 +1,4 @@
 # keep
 !.envrc
+!my_scripts
+!pyrightconfig.json

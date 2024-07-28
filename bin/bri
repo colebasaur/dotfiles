@@ -1,0 +1,7 @@
+#! /usr/bin/python3
+
+print("hello world!")
+print(
+    "Hi Cole, it's me Mrs. Bri! I am so pround to call you my husband! You are so sweet, strong, capable, smartz and a great pasty chef. Never forget how much I love you! But just in case - it's eleven."
+)
+

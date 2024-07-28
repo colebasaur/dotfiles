@@ -53,9 +53,9 @@ eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 eval "$(direnv hook zsh)"
 
-export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
-export WORKON_HOME=$HOME/.virtualenvs
-pyenv virtualenvwrapper_lazy
+# export PYENV_VIRTUALENVWRAPPER_PREFER_PYVENV="true"
+# export WORKON_HOME=$HOME/.virtualenvs
+# pyenv virtualenvwrapper_lazy
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -70,3 +70,12 @@ export CPATH="$CPATH:$(brew --prefix)/include"
 export PATH="$PATH:$HOME/flutter/bin"
 
 export GOPRIVATE=in.thewardro.be
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17
+
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+## [Completion]
+## Completion scripts setup. Remove the following line to uninstall
+[[ -f /Users/coletroutman/.dart-cli-completion/zsh-config.zsh ]] && . /Users/coletroutman/.dart-cli-completion/zsh-config.zsh || true
+## [/Completion]
+
