@@ -18,3 +18,4 @@ tmp/**/*
 .envrc
 /my_scripts
 pyrightconfig.json
+.python-version

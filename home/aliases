@@ -1,4 +1,5 @@
 # Unix
+alias ls="ls --color"
 alias ll="ls -al"
 alias ln="ln -v"
 alias mkdir="mkdir -p"
@@ -47,9 +48,9 @@ alias gcount='git shortlog -sn'
 compdef gcount=git
 alias gcp='git cherry-pick'
 compdef _git gcp=git-cherry-pick
-alias glg='git log --stat --max-count=5'
+alias glg='git log --stat'
 compdef _git glg=git-log
-alias glgg='git log --graph --max-count=5'
+alias glgg='git log --graph'
 compdef _git glgg=git-log
 alias gss='git status -s'
 compdef _git gss=git-status
@@ -59,6 +60,11 @@ alias gm='git merge'
 compdef _git gm=git-merge
 alias grh='git reset HEAD'
 alias grhh='git reset HEAD --hard'
+alias gd='git diff'
+alias gfs='git checkout $(git branch | fzf)'
+alias gfsa='git checkout $(git branch -a | fzf)'
+alias gmp='git checkout main || git checkout master && git pull'
+alias gip='git checkout integration && git pull'
 
 # docker/docker compose
 alias d='docker'
@@ -66,3 +72,20 @@ alias dc='docker compose'
 
 # openapi-generator
 alias og='openapi-generator'
+
+# netes
+alias k='kubectl'
+alias kns='kubectl config set-context --current --namespace'
+alias kctx='kubectx'
+
+# zshrs re-source
+alias rz='source ~/.zshrc'
+
+# jump
+alias j='. jump'
+alias jl='j -l'
+alias jll='j -ll'
+alias jj='j current'
+
+# clone
+alias clone='. clone'

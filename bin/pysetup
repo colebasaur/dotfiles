@@ -1,0 +1,16 @@
+if [[ -z $1 ]]; then
+  echo "Must provide venv name"
+  exit 1
+fi
+
+cat >pyrightconfig.json <<EOF
+{
+  "venvPath": "$HOME/.pyenv/versions",
+  "venv": "$1"
+}
+EOF
+
+cat >.envrc <<EOF
+export PYTHONPATH="."
+export VIRTUAL_ENV="$1"
+EOF

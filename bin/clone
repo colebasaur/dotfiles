@@ -1,0 +1,8 @@
+clone_result=$(_clone "$@")
+while IFS= read -r line; do
+  if [[ "$line" =~ "^===>(.*)$" ]]; then
+    cd ${match[1]}
+  else
+    echo "$line"
+  fi
+done <<<"$clone_result"

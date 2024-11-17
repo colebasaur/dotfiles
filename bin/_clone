@@ -1,0 +1,76 @@
+#! /bin/bash
+version="1.0.0"
+
+show_version() {
+  echo "clone v$version"
+}
+
+usage() {
+  show_version
+  echo
+  echo "Description:"
+  echo "  Helper script to set up directories to organize projects"
+  echo "  and clone them in one command."
+  echo
+  echo "Usage: clone <arguments>"
+  echo
+  echo "Options:"
+  echo "  -h,      --help       Show this help message and exit"
+  echo "  -v,      --version    Show the version information"
+  echo
+  echo "Example:"
+  echo "  clone git@gitlab.com:lifechurch/youversion/data/xray.git"
+}
+
+clone() {
+  repo=$1
+  if [[ "$repo" =~ ^(git@[^:]+:|https://[^/]+/)([^.]+)(.git)?$ ]]; then
+    url=${BASH_REMATCH[0]}
+    path=${BASH_REMATCH[2]}
+    ext=${BASH_REMATCH[3]}
+
+    fullpath="$CODE_BASE_REPO/$path"
+
+    if [[ -d "$fullpath" ]]; then
+      echo "Already cloned. Changing to project directory"
+      echo "===>$fullpath"
+    else
+      mkdir -p $fullpath
+      git clone $url $fullpath
+      echo "Changing to project directory"
+      echo "===>$fullpath"
+    fi
+
+  else
+    echo "Unable to create path from repository specified"
+    exit 1
+  fi
+}
+
+if [[ $# != 1 ]]; then
+  echo -e "Incorrect number or arguments\n"
+  usage
+  exit 1
+fi
+
+if [[ -z "$CODE_BASE_REPO" ]]; then
+  echo "Must have CODE_BASE_REPO set"
+  exit 1
+fi
+
+case $1 in
+-h | --help)
+  usage
+  exit 0
+  ;;
+-v | --version)
+  show_version
+  exit 0
+  ;;
+*)
+  clone $1
+  exit 0
+  ;;
+esac
+
+exit 0

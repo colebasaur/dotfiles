@@ -37,3 +37,5 @@
   signingkey = ~/.ssh/id_ed25519
 [url "git@in.thewardro.be:"]
   insteadOf = https://in.thewardro.be/
+[url "git@gitlab.com:"]
+  insteadOf = https://gitlab.com/

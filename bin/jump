@@ -1,0 +1,8 @@
+jump_result=$(_jump "$@")
+while IFS= read -r line; do
+  if [[ "$line" =~ "^===>(.*)$" ]]; then
+    cd ${match[1]}
+  else
+    echo "$line"
+  fi
+done <<<"$jump_result"
