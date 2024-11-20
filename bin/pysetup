@@ -1,16 +1,31 @@
+#!/bin/bash
+
 if [[ -z $1 ]]; then
   echo "Must provide venv name"
   exit 1
 fi
 
-cat >pyrightconfig.json <<EOF
+python_version=$(python --version)
+version=${python_version#* }
+version=${version%.*}
+echo "$version"
+
+if [[ ! -f "pyrightconfig.json" ]]; then
+  cat >pyrightconfig.json <<EOF
 {
+  "pythonVersion": "$version",
   "venvPath": "$HOME/.pyenv/versions",
   "venv": "$1"
 }
 EOF
+fi
 
-cat >.envrc <<EOF
-export PYTHONPATH="."
-export VIRTUAL_ENV="$1"
-EOF
+if [[ -z $PYTHONPATH ]]; then
+  echo "export PYTHONPATH=\".\"" >>.envrc
+fi
+
+if [[ -z $VIRTUAL_ENV ]]; then
+  echo "export VIRTUAL_ENV=\"$1\"" >>.envrc
+fi
+
+direnv allow
