@@ -1,5 +1,5 @@
 # Unix
-alias ls="ls --color"
+alias ls="ls -al --color"
 alias ll="ls -al"
 alias ln="ln -v"
 alias mkdir="mkdir -p"
@@ -13,11 +13,6 @@ alias s="rspec"
 
 # Pretty print the path
 alias path='echo $PATH | tr -s ":" "\n"'
-
-# Include custom aliases
-if [[ -f ~/.aliases.local ]]; then
-  source ~/.aliases.local
-fi
 
 # git
 alias g='git'
