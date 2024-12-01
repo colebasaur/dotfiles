@@ -59,3 +59,8 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 # For clone script
 export CODE_BASE_REPO="$HOME/code"
+
+# yv tool
+eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init -)"
+
+export PATH="$HOME/.bin:$PATH"
