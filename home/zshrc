@@ -14,7 +14,7 @@ fi
 
 # aliases
 autoload -U compinit && compinit
-[[ ! -f ~/.aliases ]] || source ~/.aliases
+source ~/.aliases
 
 # Zinit Plugin Manager
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -62,5 +62,8 @@ export CODE_BASE_REPO="$HOME/code"
 
 # yv tool
 eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init -)"
+
+# autojump
+[ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
 
 export PATH="$HOME/.bin:$PATH"

@@ -82,10 +82,10 @@ alias kctx='kubectx'
 alias rz='source ~/.zshrc'
 
 # jump
-alias j='. jump'
-alias jl='j -l'
-alias jll='j -ll'
-alias jj='j current'
+# alias j='. jump'
+# alias jl='j -l'
+# alias jll='j -ll'
+# alias jj='j current'
 
 # clone
 alias clone='. clone'
