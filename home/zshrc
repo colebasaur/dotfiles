@@ -69,6 +69,10 @@ eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init
 
 export PATH="$HOME/.bin:$PATH"
 
+# jenv
+export PATH="$HOME/.jenv/bin:$PATH"
+eval "$(jenv init -)"
+
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/coletroutman/.rd/bin:$PATH"
 ### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)

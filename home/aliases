@@ -87,3 +87,6 @@ alias clone='. clone'
 
 # mergestat
 alias ms='mergestat'
+
+# nvim
+alias n='nvim'
