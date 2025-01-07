@@ -84,3 +84,6 @@ alias rz='source ~/.zshrc'
 
 # clone
 alias clone='. clone'
+
+# mergestat
+alias ms='mergestat'

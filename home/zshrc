@@ -35,14 +35,15 @@ zinit ice depth=1; zinit light romkatv/Powerlevel10k
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
-zinit light zsh-users/zsh-history-substring-search
-zinit light Aloxaf/fzf-tab
 
 # vi mode
 bindkey -v
 bindkey -M viins 'jk' vi-cmd-mode
 bindkey '^N' down-line-or-history  # Ctrl-n for next history
 bindkey '^P' up-line-or-history    # Ctrl-p for previous history
+
+# Share history between sessions
+setopt SHARE_HISTORY
 
 # Python
 export PYENV_ROOT="$HOME/.pyenv"
@@ -67,3 +68,7 @@ eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init
 [ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
 
 export PATH="$HOME/.bin:$PATH"
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/coletroutman/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
