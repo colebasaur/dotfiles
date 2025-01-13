@@ -35,15 +35,22 @@ zinit ice depth=1; zinit light romkatv/Powerlevel10k
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
+# history
+zinit snippet OMZ::plugins/git/git.plugin.zsh
+zinit load zsh-users/zsh-history-substring-search
+zinit ice wait atload _history_substring_search_config
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+bindkey '^N' history-substring-search-down
+bindkey '^P' history-substring-search-up
+HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#03fcf4,bold"
+HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=#e3625d,bold"
+setopt SHARE_HISTORY HIST_IGNORE_ALL_DUPS INC_APPEND_HISTORY
 
 # vi mode
 bindkey -v
 bindkey -M viins 'jk' vi-cmd-mode
-bindkey '^N' down-line-or-history  # Ctrl-n for next history
-bindkey '^P' up-line-or-history    # Ctrl-p for previous history
-
-# Share history between sessions
-setopt SHARE_HISTORY
 
 # Python
 export PYENV_ROOT="$HOME/.pyenv"
