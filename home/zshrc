@@ -12,6 +12,13 @@ if [[ -f "$HOMEBREW_BIN/brew" ]] then
   eval "$($HOMEBREW_BIN/brew shellenv)"
 fi
 
+# rust
+source "$HOME/.cargo/env"
+if [ ! -f "$HOME/.zfunc/_rustup" ]; then
+  rustup completions zsh > ~/.zfunc/_rustup
+fi
+fpath+=~/.zfunc # rust before compinit
+
 # aliases
 autoload -U compinit && compinit
 source ~/.aliases
