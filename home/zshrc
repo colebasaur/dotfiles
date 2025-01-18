@@ -31,6 +31,10 @@ if [ ! -d "$ZINIT_HOME" ]; then
   git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 fi
 
+# vi mode
+bindkey -v
+bindkey -M viins 'jk' vi-cmd-mode
+
 source "$ZINIT_HOME/zinit.zsh"
 
 zinit ice depth=1; zinit light romkatv/Powerlevel10k
@@ -44,8 +48,8 @@ zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 # history
 zinit snippet OMZ::plugins/git/git.plugin.zsh
-zinit load zsh-users/zsh-history-substring-search
 zinit ice wait atload _history_substring_search_config
+zinit load zsh-users/zsh-history-substring-search
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey '^N' history-substring-search-down
@@ -55,9 +59,6 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#03fcf4,bold"
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=#e3625d,bold"
 setopt SHARE_HISTORY HIST_IGNORE_ALL_DUPS INC_APPEND_HISTORY
 
-# vi mode
-bindkey -v
-bindkey -M viins 'jk' vi-cmd-mode
 
 # Python
 export PYENV_ROOT="$HOME/.pyenv"
