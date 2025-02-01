@@ -24,6 +24,10 @@ if [[ -z $PYTHONPATH ]]; then
   echo "export PYTHONPATH=\".\"" >>.envrc
 fi
 
+if [[ -z $PYENV_VERSION ]]; then
+  echo "export PYENV_VERSION=\"$1\"" >>.envrc
+fi
+
 if [[ -z $VIRTUAL_ENV ]]; then
   echo "export VIRTUAL_ENV=\"$1\"" >>.envrc
 fi

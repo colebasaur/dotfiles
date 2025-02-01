@@ -1,0 +1,149 @@
+{
+  "Print Hello World": {
+    "prefix": "hw",
+    "body": [
+      "print(\"Hello, World!\")"
+    ],
+    "description": "Print Hello World statement"
+  },
+  "Main Function": {
+    "prefix": "main",
+    "body": [
+      "def main():",
+      "    ${1:pass}",
+      "",
+      "",
+      "if __name__ == \"__main__\":",
+      "    main()"
+    ],
+    "description": "Create a main function with __name__ check"
+  },
+  "For Loop": {
+    "prefix": "for",
+    "body": [
+      "for ${1:item} in ${2:items}:",
+      "    ${3:pass}"
+    ],
+    "description": "Create a for loop"
+  },
+  "List Comprehension": {
+    "prefix": "lc",
+    "body": [
+      "[${1:expression} for ${2:item} in ${3:items}]"
+    ],
+    "description": "Create a list comprehension"
+  },
+  "Dictionary Comprehension": {
+    "prefix": "dc",
+    "body": [
+      "{${1:key}: ${2:value} for ${3:item} in ${4:items}}"
+    ],
+    "description": "Create a dictionary comprehension"
+  },
+  "Try Except": {
+    "prefix": "try",
+    "body": [
+      "try:",
+      "    ${1:pass}",
+      "except ${2:Exception} as e:",
+      "    ${3:print(f\"Error: {e}\")}",
+      "finally:",
+      "    ${4:pass}"
+    ],
+    "description": "Create a try-except block"
+  },
+  "Class Definition": {
+    "prefix": "class",
+    "body": [
+      "class ${1:ClassName}:",
+      "    def __init__(self${2:}):",
+      "        ${3:pass}",
+      "",
+      "    def ${4:method}(self):",
+      "        ${5:pass}"
+    ],
+    "description": "Create a class definition"
+  },
+  "Function Definition": {
+    "prefix": "def",
+    "body": [
+      "def ${1:function_name}(${2:parameters}):",
+      "    \"\"\"",
+      "    ${3:Description}",
+      "    ",
+      "    Args:",
+      "        ${4:param}: ${5:description}",
+      "    ",
+      "    Returns:",
+      "        ${6:return_description}",
+      "    \"\"\"",
+      "    ${7:pass}"
+    ],
+    "description": "Create a function with docstring"
+  },
+  "Lambda Function": {
+    "prefix": "lam",
+    "body": [
+      "lambda ${1:x}: ${2:expression}"
+    ],
+    "description": "Create a lambda function"
+  },
+  "Context Manager": {
+    "prefix": "with",
+    "body": [
+      "with ${1:expression} as ${2:variable}:",
+      "    ${3:pass}"
+    ],
+    "description": "Create a with statement"
+  },
+  "Import": {
+    "prefix": "imp",
+    "body": [
+      "import ${1:module}"
+    ],
+    "description": "Import statement"
+  },
+  "From Import": {
+    "prefix": "fimp",
+    "body": [
+      "from ${1:module} import ${2:object}"
+    ],
+    "description": "From import statement"
+  },
+  "Assert Statement": {
+    "prefix": "ass",
+    "body": [
+      "assert ${1:condition}, \"${2:error message}\""
+    ],
+    "description": "Create an assert statement"
+  },
+  "Property Decorator": {
+    "prefix": "prop",
+    "body": [
+      "@property",
+      "def ${1:property_name}(self):",
+      "    return ${2:expression}"
+    ],
+    "description": "Create a property decorator"
+  },
+  "Type Hint Function": {
+    "prefix": "tdef",
+    "body": [
+      "def ${1:function_name}(${2:parameter}: ${3:type}) -> ${4:return_type}:",
+      "    ${5:pass}"
+    ],
+    "description": "Create a function with type hints"
+  },
+  "Dataclass": {
+    "prefix": "dclass",
+    "body": [
+      "from dataclasses import dataclass",
+      "",
+      "@dataclass",
+      "class ${1:ClassName}:",
+      "    ${2:attribute}: ${3:type}",
+      "    ${4:attribute2}: ${5:type} = ${6:default_value}"
+    ],
+    "description": "Create a dataclass"
+  }
+}
