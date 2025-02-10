@@ -19,6 +19,9 @@ if [ ! -f "$HOME/.zfunc/_rustup" ]; then
 fi
 fpath+=~/.zfunc # rust before compinit
 
+# golang
+export PATH="$(go env GOPATH)/bin:$PATH"
+
 # aliases
 autoload -U compinit && compinit
 source ~/.aliases
