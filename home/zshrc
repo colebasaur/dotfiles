@@ -67,6 +67,8 @@ setopt SHARE_HISTORY HIST_IGNORE_ALL_DUPS INC_APPEND_HISTORY
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init --path)"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 export PATH="$PATH:/Users/coletroutman/.local/bin"
 
 # Direnv
@@ -90,6 +92,9 @@ export PATH="$HOME/.bin:$PATH"
 # jenv
 export PATH="$HOME/.jenv/bin:$PATH"
 eval "$(jenv init -)"
+
+# apikeys (secrets)
+source "$HOME/dotfiles/.apikeys"
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/coletroutman/.rd/bin:$PATH"
