@@ -5,14 +5,13 @@ if [[ -z $1 ]]; then
   exit 1
 fi
 
-if [[ ! -z $2 ]]; then
-  version=$2
-else
+version="${2:-}"
+if [[ -z $version ]]; then
   python_version=$(python --version)
-  version=${python_version#* }
-  version=${version%.*}
-  echo "$version"
+  version="${python_version#* }"
+  version="${version%.*}"
 fi
+echo "$version"
 
 if [[ ! -f "pyrightconfig.json" ]]; then
   cat >pyrightconfig.json <<EOF
@@ -25,7 +24,7 @@ EOF
 fi
 
 if [[ -z $PYTHONPATH ]]; then
-  echo 'export PYTHONPATH=`pwd`' >>.envrc
+  echo 'export PYTHONPATH=$(pwd)' >>.envrc
 fi
 
 if [[ -z $PYENV_VERSION ]]; then
@@ -38,7 +37,7 @@ help:
 	@echo "make venv"
 	@echo "    Create virtual environment and install requirements"
 venv:
-	@pyenv install $version --skip-existing
+	@pyenv install ${version} --skip-existing
 	@pyenv virtualenv -f ${version} $1
 EOF
 fi
