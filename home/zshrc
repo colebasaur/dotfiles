@@ -1,58 +1,39 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
+# Enable Powerlevel10k instant prompt and source essential files.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Ensure homebrew is setup in environment
+# Homebrew setup
 export HOMEBREW_BIN="/opt/homebrew/bin"
-if [[ -f "$HOMEBREW_BIN/brew" ]] then
-  # If you're using macOS, you'll want this enabled
-  eval "$($HOMEBREW_BIN/brew shellenv)"
-fi
+[[ -f "$HOMEBREW_BIN/brew" ]] && eval "$($HOMEBREW_BIN/brew shellenv)"
 
-# rust
+# Rust and Golang environment
 source "$HOME/.cargo/env"
-if [ ! -f "$HOME/.zfunc/_rustup" ]; then
-  rustup completions zsh > ~/.zfunc/_rustup
-fi
-fpath+=~/.zfunc # rust before compinit
-
-# golang
+[[ ! -f "$HOME/.zfunc/_rustup" ]] && rustup completions zsh > ~/.zfunc/_rustup
+fpath+=~/.zfunc
 export PATH="$(go env GOPATH)/bin:$PATH"
 
-# aliases
-autoload -U compinit && compinit
+autoload -Uz compinit && compinit
 source ~/.aliases
 
-# Zinit Plugin Manager
+# Zinit Plugin Manager initialization
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-
-if [ ! -d "$ZINIT_HOME" ]; then
-  mkdir -p "$(dirname $ZINIT_HOME)"
-  git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-fi
-
-# vi mode
-bindkey -v
-bindkey -M viins 'jk' vi-cmd-mode
-
+[[ ! -d "$ZINIT_HOME" ]] && mkdir -p "$(dirname $ZINIT_HOME)" && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "$ZINIT_HOME/zinit.zsh"
-
 zinit ice depth=1; zinit light romkatv/Powerlevel10k
+[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-
-# ZSH plugins
+# ZSH plugins setup with Zinit
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
-# history
 zinit snippet OMZ::plugins/git/git.plugin.zsh
 zinit ice wait atload _history_substring_search_config
 zinit load zsh-users/zsh-history-substring-search
+
+# Key bindings for history and vi mode
+bindkey -v
+bindkey -M viins 'jk' vi-cmd-mode
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 bindkey '^N' history-substring-search-down
@@ -62,40 +43,19 @@ HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#03fcf4,bold"
 HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=#e3625d,bold"
 setopt SHARE_HISTORY HIST_IGNORE_ALL_DUPS INC_APPEND_HISTORY
 
-
-# Python
+# Environment configuration for Python, Direnv, Gcloud, and other tools
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$PYENV_ROOT/bin:$HOME/.jenv/bin:$HOME/.bin:/Users/coletroutman/.local/bin:/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:/Users/coletroutman/.rd/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
-export PATH="$PATH:/Users/coletroutman/.local/bin"
-
-# Direnv
 eval "$(direnv hook zsh)"
-
-# gcloud
-export PATH="$PATH:/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin"
+eval "$(jenv init -)"
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
-# For clone script
+# Custom scripts and secrets
 export CODE_BASE_REPO="$HOME/code"
-
-# yv tool
 eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init -)"
-
-# autojump
+source "$HOME/dotfiles/.apikeys"
 [ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
 
-export PATH="$HOME/.bin:$PATH"
-
-# jenv
-export PATH="$HOME/.jenv/bin:$PATH"
-eval "$(jenv init -)"
-
-# apikeys (secrets)
-source "$HOME/dotfiles/.apikeys"
-
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/coletroutman/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
