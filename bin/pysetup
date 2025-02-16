@@ -5,15 +5,19 @@ if [[ -z $1 ]]; then
   exit 1
 fi
 
-python_version=$(python --version)
-version=${python_version#* }
-version=${version%.*}
-echo "$version"
+if [[ ! -z $2 ]]; then
+  version=$2
+else
+  python_version=$(python --version)
+  version=${python_version#* }
+  version=${version%.*}
+  echo "$version"
+fi
 
 if [[ ! -f "pyrightconfig.json" ]]; then
   cat >pyrightconfig.json <<EOF
 {
-  "pythonVersion": "$version",
+  "pythonVersion": "${version}",
   "venvPath": "$HOME/.pyenv/versions",
   "venv": "$1"
 }
@@ -21,15 +25,22 @@ EOF
 fi
 
 if [[ -z $PYTHONPATH ]]; then
-  echo "export PYTHONPATH=\".\"" >>.envrc
+  echo 'export PYTHONPATH=`pwd`' >>.envrc
 fi
 
 if [[ -z $PYENV_VERSION ]]; then
   echo "export PYENV_VERSION=\"$1\"" >>.envrc
 fi
 
-if [[ -z $VIRTUAL_ENV ]]; then
-  echo "export VIRTUAL_ENV=\"$1\"" >>.envrc
+if [[ ! -f Makefile ]]; then
+  cat <<EOF >Makefile
+help:
+	@echo "make venv"
+	@echo "    Create virtual environment and install requirements"
+venv:
+	@pyenv install $version --skip-existing
+	@pyenv virtualenv -f ${version} $1
+EOF
 fi
 
 direnv allow

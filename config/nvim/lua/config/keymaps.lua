@@ -7,3 +7,7 @@ vim.keymap.set("n", "<C-k>", "4kzz", { silent = true })
 vim.keymap.set("n", "G", "Gzz", { silent = true })
 vim.keymap.set("n", "<leader>mt", ":RenderMarkdown toggle<CR>", { silent = true })
 
+-- Parrot AI implementations
+vim.keymap.set("v", "<leader>cci", ":PrtImplement<CR>", { silent = true })
+vim.keymap.set("v", "<leader>ccr", ":PrtRewrite<CR>", { silent = true })
+vim.keymap.set("n", "<leader>ccm", ":PrtModel<CR>", { silent = true })
