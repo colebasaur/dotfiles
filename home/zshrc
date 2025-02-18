@@ -59,3 +59,7 @@ eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init
 source "$HOME/dotfiles/.apikeys"
 [ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
 
+
+### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
+export PATH="/Users/coletroutman/.rd/bin:$PATH"
+### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
