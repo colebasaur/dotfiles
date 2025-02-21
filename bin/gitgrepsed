@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Default values for options
-exclude_files=""
-
 # Function to show usage
 usage() {
   echo "Usage: gitgrepsed [-e exclude_files] [-i include_files] search_string replace_string"
@@ -12,6 +9,10 @@ usage() {
   echo "  replace_string  The string to replace with"
   exit 1
 }
+
+# Default values for options
+exclude_files=""
+include_files=""
 
 # Parse options using getopts
 while getopts "e:i:" opt; do
@@ -32,50 +33,23 @@ search_string="$1"
 replace_string="$2"
 
 # Escape dots in filenames (for regex purposes)
+# Ex. turns '*.txt' into '.*\.txt'
 escape_dot() {
-  echo "$1" | sed 's/\./\\./g'
+  echo "$1" | sed 's/\./\\./g' | sed 's/\*/\.\*/g'
 }
-
-# Build the command for excluding files
-exclude_command=""
-if [ -n "$exclude_files" ]; then
-  # Convert the comma-separated list to a regex-friendly format
-  IFS=',' read -ra files <<<"$exclude_files"
-  for file in "${files[@]}"; do
-    # Escape dots in filenames
-    escaped_file=$(escape_dot "$file")
-    if [ -z "$exclude_command" ]; then
-      exclude_command="grep -vE '$escaped_file'"
-    else
-      exclude_command="$exclude_command | grep -vE '$escaped_file'"
-    fi
-  done
-fi
-
-# Build the command for including files
-include_command=""
-if [ -n "$include_files" ]; then
-  # Convert the comma-separated list to a regex-friendly format
-  IFS=',' read -ra files <<<"$exclude_files"
-  for file in "${files[@]}"; do
-    # Escape dots in filenames
-    escaped_file=$(escape_dot "$file")
-    if [ -z "$exclude_command" ]; then
-      exclude_command="grep -E '$escaped_file'"
-    else
-      exclude_command="$exclude_command | grep -E '$escaped_file'"
-    fi
-  done
-fi
 
 # Start with the basic command
 command="git ls-files"
-if [ -n "$exclude_command" ]; then
-  command="$command | $exclude_command"
+
+# Include Files
+if [ -n "$include_files" ]; then
+  command="$command $include_files"
 fi
-if [ -n "$include_command" ]; then
-  command="$command | $include_command"
+# Exclude Files
+if [ -n "$exclude_files" ]; then
+  command="$command | grep -vE '$(escape_dot $exclude_files)'"
 fi
 
 # Run the final command to search and replace
+# echo "$command | xargs grep -l '$search_string' | xargs sed -i '' 's|$search_string|$replace_string|g'"
 eval "$command | xargs grep -l '$search_string' | xargs sed -i '' 's|$search_string|$replace_string|g'"
