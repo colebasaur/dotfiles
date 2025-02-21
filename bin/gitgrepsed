@@ -3,10 +3,12 @@
 # Function to show usage
 usage() {
   echo "Usage: gitgrepsed [-e exclude_files] [-i include_files] search_string replace_string"
-  echo "  -e  Comma-separated list of files to exclude (e.g., 'file1.go,file2.txt')"
-  echo "  -i  Comma-separated list of files to include (e.g., 'file1.go,file2.txt')"
-  echo "  search_string   The string to search for"
-  echo "  replace_string  The string to replace with"
+  echo "  -i  files/directories to include"
+  echo "      example: './dir_1 file.txt'"
+  echo "  -e  exclude pattern"
+  echo "      example: '*.txt'"
+  echo "  search_string   The string/pattern to search for"
+  echo "  replace_string  The string/pattern to replace with"
   exit 1
 }
 
