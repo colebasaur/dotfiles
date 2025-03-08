@@ -64,6 +64,7 @@ alias gip='git checkout integration && git pull'
 # docker/docker compose
 alias d='docker'
 alias dc='docker compose'
+alias dps='(echo "ID NAME STATUS\n---------- ---------- ----------"; docker ps --format "{{.ID}} {{.Names}} {{.Status}}") | column -t'
 
 # openapi-generator
 alias og='openapi-generator'
