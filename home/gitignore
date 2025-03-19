@@ -19,3 +19,4 @@ tmp/**/*
 /my_scripts
 pyrightconfig.json
 .python-version
+kls_database.db
