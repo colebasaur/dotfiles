@@ -59,6 +59,16 @@ eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init
 source "$HOME/dotfiles/.apikeys"
 [ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
 
+kexec() {
+  local pod_name=$(kubectl get pods | tail -n +2 | fzf | awk '{print $1}')
+  if [[ -n $pod_name ]]; then
+    echo "Executing into $pod_name"
+    kubectl exec -it $pod_name -- /bin/bash
+  else
+    echo "No pod selected"
+  fi
+}
+
 
 ### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
 export PATH="/Users/coletroutman/.rd/bin:$PATH"
