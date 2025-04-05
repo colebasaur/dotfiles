@@ -15,7 +15,7 @@ return {
   },
   {
     "EdenEast/nightfox.nvim",
-    -- opts = { options = { transparent = true } },
+    opts = { options = { transparent = true } },
   },
   {
     "shaunsingh/moonlight.nvim",
@@ -27,11 +27,11 @@ return {
   {
     "LazyVim/LazyVim",
     opts = {
-      -- colorscheme = "catppuccin",
+      colorscheme = "catppuccin",
       -- colorscheme = "gruvbox",
       -- colorscheme = "tokyonight",
       -- colorscheme = "duskfox",
-      colorscheme = "nightfox",
+      -- colorscheme = "nightfox",
       -- colorscheme = "terafox",
       -- colorscheme = "nordfox",
       -- colorscheme = "carbonfox",
