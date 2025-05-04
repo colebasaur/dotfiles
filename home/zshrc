@@ -69,7 +69,26 @@ kexec() {
   fi
 }
 
+kpf() {
+  local pod_name=$(kubectl get pods | tail -n +2 | fzf | awk '{print $1}')
+  if [[ -n $pod_name ]]; then
+    echo "Port-forwarding $pod_name :: 6000"
+    kubectl port-forward $pod_name 6000
+  else
+    echo "No pod selected"
+  fi
+}
 
-### MANAGED BY RANCHER DESKTOP START (DO NOT EDIT)
-export PATH="/Users/coletroutman/.rd/bin:$PATH"
-### MANAGED BY RANCHER DESKTOP END (DO NOT EDIT)
+export PATH="$PATH:/Users/coletroutman/code/lifechurch/youversion/apis/systems/bible/bi-tools"
+
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17
+export PATH="$PATH:$HOME/fvm/versions/3.19.6/bin"
+export PATH="$PATH:$HOME/fvm/versions/3.19.6/bin/cache/dart-sdk/bin"
+# Add melos pub cache to PATH
+export PATH="$PATH:$HOME/.pub-cache/bin"
+
+# bun
+[ -s "/Users/coletroutman/.bun/_bun" ] && source "/Users/coletroutman/.bun/_bun"
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17

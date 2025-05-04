@@ -1,5 +1,6 @@
 return {
   "lewis6991/gitsigns.nvim",
+  commit = "7cfd88d9c017283df14125640c9ce9c07f284519",
   event = "VeryLazy",
   config = function()
     local gitsigns = require("gitsigns")
