@@ -10,3 +10,7 @@ vim.keymap.set("n", "<leader>mt", ":RenderMarkdown toggle<CR>", { silent = true 
 vim.keymap.set("v", "<leader>cci", ":PrtImplement<CR>", { silent = true })
 vim.keymap.set("v", "<leader>ccr", ":PrtRewrite<CR>", { silent = true })
 vim.keymap.set("n", "<leader>ccm", ":PrtModel<CR>", { silent = true })
+
+-- Copilot AI implementations
+vim.keymap.set("i", "<M-CR>", 'copilot#Accept("\\<CR>")', { expr = true, replace_keycodes = false })
+vim.g.copilot_no_tab_map = true
