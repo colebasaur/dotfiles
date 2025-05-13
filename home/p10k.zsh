@@ -98,7 +98,7 @@
   typeset -g POWERLEVEL9K_PROMPT_CHAR_OVERWRITE_STATE=false
 
   # Show prompt segment "kubecontext" only when the command you are typing invokes one of these tools.
-  typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens'
+  typeset -g POWERLEVEL9K_KUBECONTEXT_SHOW_ON_COMMAND='kubectl|helm|kubens|yv'
   # Blue Kubecontext.
   typeset -g POWERLEVEL9K_KUBECONTEXT_FOREGROUND=$purple
 
