@@ -1,0 +1,9 @@
+{
+  "New Day": {
+    "prefix": "newday",
+    "body": [
+      "package days\n\nimport (\n\t\"aoc/internal/utils\"\n)\n\ntype Day$1 struct{}\n\nfunc (d Day$1) Part1() any {\n\tlines := utils.GetLines(\"./input/$1.txt\")\n\treturn lines\n}\n\nfunc (d Day$1) Part2() any {\n\tlines := utils.GetLines(\"./input/$1.txt\")\n\treturn lines\n}"
+    ],
+    "description": "Set up a new Advent of Code day"
+  }
+}

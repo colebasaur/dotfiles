@@ -20,3 +20,4 @@ tmp/**/*
 pyrightconfig.json
 .python-version
 kls_database.db
+*.rendered.yaml

@@ -14,7 +14,6 @@ fpath+=~/.zfunc
 export PATH="$(go env GOPATH)/bin:$PATH"
 
 autoload -Uz compinit && compinit
-source ~/.aliases
 
 # Zinit Plugin Manager initialization
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -56,7 +55,7 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 # Custom scripts and secrets
 export CODE_BASE_REPO="$HOME/code"
 eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init -)"
-source "$HOME/dotfiles/.apikeys"
+source "$HOME/dotfiles/.global.env"
 [ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
 
 kexec() {
@@ -79,6 +78,10 @@ kpf() {
   fi
 }
 
+dba() {
+    docker build --build-arg YV_DOCKER_CACHE="$YV_DOCKER_CACHE" --build-arg YV_REGISTRY="$YV_REGISTRY" "$@"
+}
+
 export PATH="$PATH:/Users/coletroutman/code/lifechurch/youversion/apis/systems/bible/bi-tools"
 
 export JAVA_HOME=/opt/homebrew/opt/openjdk@17
@@ -92,3 +95,5 @@ export PATH="$PATH:$HOME/.pub-cache/bin"
 export BUN_INSTALL="$HOME/.bun"
 export PATH="$BUN_INSTALL/bin:$PATH"
 export JAVA_HOME=/opt/homebrew/opt/openjdk@17
+
+source ~/.aliases

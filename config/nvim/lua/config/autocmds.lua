@@ -17,3 +17,9 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
     vim.b.autoformat = false
   end,
 })
+
+-- Copy Buffer Path to Clipboard
+vim.api.nvim_create_user_command("CopyBufferPath", function()
+  vim.fn.setreg("+", vim.fn.expand("%:p"))
+  print("Copied: " .. vim.fn.expand("%:p"))
+end, { desc = "Copy full buffer path" })
