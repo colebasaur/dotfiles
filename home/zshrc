@@ -54,7 +54,9 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 # Custom scripts and secrets
 export CODE_BASE_REPO="$HOME/code"
-eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init -)"
+if [ -d "/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv" ]; then
+  eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init -)"
+fi
 source "$HOME/dotfiles/.global.env"
 [ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
 
