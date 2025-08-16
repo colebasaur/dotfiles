@@ -93,3 +93,6 @@ alias ms='mergestat'
 
 # nvim
 alias n='nvim'
+
+# copy directory path to clipboard
+alias cdp='pwd | pbcopy'

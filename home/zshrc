@@ -54,20 +54,19 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 # Custom scripts and secrets
 export CODE_BASE_REPO="$HOME/code"
-if [ -d "/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv" ]; then
-  eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init -)"
-fi
+eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init -)"
 source "$HOME/dotfiles/.global.env"
 [ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
 
+
 kexec() {
-  local pod_name=$(kubectl get pods | tail -n +2 | fzf | awk '{print $1}')
-  if [[ -n $pod_name ]]; then
-    echo "Executing into $pod_name"
-    kubectl exec -it $pod_name -- /bin/bash
-  else
-    echo "No pod selected"
-  fi
+    local pod=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | fzf --prompt="Select pod: ")
+    if [[ -n "$pod" ]]; then
+      echo "Executing into $pod"
+      kubectl exec -it "$pod" -- /bin/bash || kubectl exec -it "$pod" -- /bin/sh
+    else
+      echo "No pod selected"
+    fi
 }
 
 kpf() {
