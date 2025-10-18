@@ -4,6 +4,9 @@ return {
     ensure_installed = {
       "dart",
       "go",
+      "gomod",
+      "gosum",
+      "gowork",
     },
   },
 }
