@@ -13,6 +13,7 @@ source "$HOME/.cargo/env"
 fpath+=~/.zfunc
 export PATH="$(go env GOPATH)/bin:$PATH"
 
+fpath=(~/.zsh/completions $fpath)
 autoload -Uz compinit && compinit
 
 # Zinit Plugin Manager initialization

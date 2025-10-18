@@ -20,7 +20,6 @@
   ff = only
 [commit]
   gpgsign = true
-  template = ~/.gitmessage
 [fetch]
   prune = true
 [gpg]

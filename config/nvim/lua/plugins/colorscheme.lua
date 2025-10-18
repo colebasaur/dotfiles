@@ -1,10 +1,16 @@
 return {
+  -- Test Comment
   {
     "catppuccin/nvim",
     opts = {
       flavour = "mocha",
       transparent_background = true,
-      styles = {},
+      float = {
+        transparent = true,
+      },
+      styles = {
+        comments = { "italic" },
+      },
     },
   },
   { "ellisonleao/gruvbox.nvim" },
