@@ -6,11 +6,6 @@ vim.keymap.set("n", "<C-d>", "<C-d>zz", { silent = true })
 vim.keymap.set("n", "<C-u>", "<C-u>zz", { silent = true })
 vim.keymap.set("n", "<leader>mt", ":RenderMarkdown toggle<CR>", { silent = true })
 
--- Parrot AI implementations
-vim.keymap.set("v", "<leader>cci", ":PrtImplement<CR>", { silent = true })
-vim.keymap.set("v", "<leader>ccr", ":PrtRewrite<CR>", { silent = true })
-vim.keymap.set("n", "<leader>ccm", ":PrtModel<CR>", { silent = true })
-
 -- Copilot AI implementations
 vim.keymap.set("i", "<M-CR>", 'copilot#Accept("\\<CR>")', { expr = true, replace_keycodes = false })
 vim.keymap.set("n", "<leader>cpd", ":Copilot disable<CR>")

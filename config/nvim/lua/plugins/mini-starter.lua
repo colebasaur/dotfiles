@@ -26,7 +26,7 @@ return {
       evaluate_single = true,
       header = logo,
       items = {
-        new_section("", "", "God's Word. Everyone, Everywhere, Everyday.")
+        new_section("", "", "God's Word. Everyone, Everywhere, Every day.")
       },
       content_hooks = {
         -- starter.gen_hook.adding_bullet(pad .. "░ ", false),
