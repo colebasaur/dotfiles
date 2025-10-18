@@ -3,6 +3,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# Set NVIM as the default editor
+export EDITOR='nvim'
+
 # Homebrew setup
 export HOMEBREW_BIN="/opt/homebrew/bin"
 [[ -f "$HOMEBREW_BIN/brew" ]] && eval "$($HOMEBREW_BIN/brew shellenv)"
