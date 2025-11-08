@@ -1,0 +1,23 @@
+# Main UI
+theme = dark:Catppuccin Mocha,light:Catppuccin Frappe
+macos-titlebar-style = hidden
+maximize = true
+
+# Font
+font-family = "MartianMono Nerd Font"
+font-family-bold = "MartianMono Nerd Font"
+font-family-italic = "MartianMono Nerd Font"
+font-family-bold-italic = "MartianMono Nerd Font"
+font-size = 18
+font-thicken = true
+
+# Cursor
+shell-integration-features = no-cursor
+cursor-style = block
+cursor-style-blink = false
+cursor-color = #86EFD1
+cursor-opacity = 0.8
+mouse-hide-while-typing = true
+
+# Misc
+link-url = true
