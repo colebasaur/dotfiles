@@ -1,0 +1,221 @@
+#!/bin/bash
+
+clone() {
+  local version="2.0.0"
+
+  # Validate environment
+  if [[ -z "$CODE_BASE_REPO" ]]; then
+    echo "Error: CODE_BASE_REPO environment variable must be set"
+    return 1
+  fi
+
+  # Show usage
+  local show_usage() {
+    echo "clone v$version"
+    echo
+    echo "Description:"
+    echo "  Helper to organize and clone projects in a structured directory."
+    echo
+    echo "Usage: clone [options] [repository_url]"
+    echo
+    echo "Options:"
+    echo "  -h, --help          Show this help message"
+    echo "  -v, --version       Show version"
+    echo "  -i, --interactive   Use fzf to select from cached GitLab repos"
+    echo "  --fetch             Fetch a list of projects for interactive mode"
+    echo
+    echo "Examples:"
+    echo "  clone git@gitlab.com:group/project.git"
+    echo "  clone -i"
+    echo "  clone --fetch"
+  }
+
+  # Interactive selection with fzf
+  local interactive_clone() {
+    local repos_file="${HOME}/.gitlab-repos.txt"
+
+    if [[ ! -f "$repos_file" ]]; then
+      echo "Error: $repos_file not found"
+      echo "Run 'clone --fetch' first to populate the repo cache"
+      return 1
+    fi
+
+    local selected
+    selected=$(awk -F'\t' '{print $1}' "$repos_file" | fzf --prompt="Select repo to clone: " --height=40% --reverse)
+
+    if [[ -z "$selected" ]]; then
+      echo "No repo selected"
+      return 0
+    fi
+
+    local ssh_url
+    ssh_url=$(grep "^${selected}	" "$repos_file" | awk -F'\t' '{print $2}')
+
+    if [[ -z "$ssh_url" ]]; then
+      echo "Error: Could not find SSH URL for $selected"
+      return 1
+    fi
+
+    echo "Selected: $selected"
+    clone_repo "$selected" "$ssh_url"  # Pass both path and URL
+  }
+
+  # Clone and cd into repo
+  local clone_repo() {
+    local repo_path=$1
+    local url=$2
+
+    if [[ -z "$url" ]]; then
+      if [[ "$repo_path" =~ ^git@[^:]+:(.+)(\.git)?$ ]]; then
+        url="$repo_path"
+        repo_path=${match[1]}  # Use $match for zsh instead of $BASH_REMATCH
+        repo_path=${repo_path%.git}
+      else
+        echo "Error: Unable to parse SSH repository URL: $repo_path"
+        echo "Expected format: git@host:group/project.git"
+        return 1
+      fi
+    fi
+
+    local fullpath="$CODE_BASE_REPO/$repo_path"
+
+    if [[ -d "$fullpath" ]]; then
+      echo "Already cloned. Changing to project directory"
+      cd "$fullpath"
+    else
+      mkdir -p "$fullpath"
+      if git clone "$url" "$fullpath"; then
+        echo "Changing to project directory"
+        cd "$fullpath"
+      else
+        echo "Error: Failed to clone repository"
+        rmdir "$fullpath" 2>/dev/null
+        return 1
+      fi
+    fi
+  }
+
+  # Fetch a list of gitlab projects
+  local fetch_projects() {
+    local GITLAB_URL="${GITLAB_URL:-https://gitlab.com}"
+    local GROUP_ID="${GITLAB_GROUP_ID}"
+    local OUTPUT_FILE="${HOME}/.gitlab-repos.txt"
+
+    if [[ -z "$GITLAB_TOKEN" ]]; then
+      echo "Error: GITLAB_TOKEN environment variable is not set"
+      return 1
+    fi
+
+    if [[ -z "$GROUP_ID" ]]; then
+      echo "Error: GITLAB_GROUP_ID environment variable is not set"
+      echo "Set it to your root organization's ID or URL-encoded path"
+      return 1
+    fi
+
+    local TEMP_FILE=$(mktemp)
+
+    echo "Fetching projects from GitLab group: $GROUP_ID"
+
+    local page=1
+    local total_projects=0
+
+    while true; do
+      echo "Fetching page $page..."
+
+      local response_file=$(mktemp)
+      local http_code=$(curl -s -w "%{http_code}" -o "$response_file" \
+        --header "PRIVATE-TOKEN: $GITLAB_TOKEN" \
+        "${GITLAB_URL}/api/v4/groups/${GROUP_ID}/projects?include_subgroups=true&per_page=100&page=${page}")
+
+      # Check for errors
+      if [[ "$http_code" != "200" ]]; then
+        echo "Error: API request failed with status code $http_code"
+        cat "$response_file"
+        rm "$response_file" "$TEMP_FILE"
+        return 1
+      fi
+
+      # Check if response is empty (no more pages)
+      local body=$(cat "$response_file")
+      if [[ "$body" == "[]" ]]; then
+        rm "$response_file"
+        break
+      fi
+
+      # Extract project info: path and ssh_url separated by tab
+      # Use jq -R to read raw input, then fromjson to parse, handling control chars
+      cat "$response_file" | jq -r '.[] | "\(.path_with_namespace)\t\(.ssh_url_to_repo)"' >>"$TEMP_FILE"
+
+      local page_count=$(cat "$response_file" | jq '. | length')
+      total_projects=$((total_projects + page_count))
+
+      rm "$response_file"
+
+      # If we got less than 100 results, we're done
+      if [[ "$page_count" -lt 100 ]]; then
+        break
+      fi
+
+      page=$((page + 1))
+    done
+
+    mv "$TEMP_FILE" "$OUTPUT_FILE"
+
+    echo "Done! Fetched $total_projects projects"
+    echo "Saved to: $OUTPUT_FILE"
+  }
+
+  # Parse arguments
+  case "${1:-}" in
+    "")
+      echo "Error: No arguments provided"
+      echo
+      show_usage
+      return 1
+      ;;
+    -h|--help)
+      show_usage
+      return 0
+      ;;
+    -v|--version)
+      echo "clone v$version"
+      return 0
+      ;;
+    -i|--interactive)
+      interactive_clone
+      return 0
+      ;;
+    --fetch)
+      fetch_projects
+      return 0
+      ;;
+    *)
+      clone_repo "$1"
+      return 0
+      ;;
+  esac
+}
+
+kexec() {
+    local pod=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | fzf --prompt="Select pod: ")
+    if [[ -n "$pod" ]]; then
+      echo "Executing into $pod"
+      kubectl exec -it "$pod" -- /bin/bash || kubectl exec -it "$pod" -- /bin/sh
+    else
+      echo "No pod selected"
+    fi
+}
+
+kpf() {
+  local pod_name=$(kubectl get pods | tail -n +2 | fzf | awk '{print $1}')
+  if [[ -n $pod_name ]]; then
+    echo "Port-forwarding $pod_name :: 6000"
+    kubectl port-forward $pod_name 6000
+  else
+    echo "No pod selected"
+  fi
+}
+
+dba() {
+    docker build --build-arg YV_DOCKER_CACHE="$YV_DOCKER_CACHE" --build-arg YV_REGISTRY="$YV_REGISTRY" "$@"
+}

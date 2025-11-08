@@ -1,8 +1,3 @@
-# Enable Powerlevel10k instant prompt and source essential files.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-
 # Set NVIM as the default editor
 export EDITOR='nvim'
 
@@ -10,10 +5,7 @@ export EDITOR='nvim'
 export HOMEBREW_BIN="/opt/homebrew/bin"
 [[ -f "$HOMEBREW_BIN/brew" ]] && eval "$($HOMEBREW_BIN/brew shellenv)"
 
-# Rust and Golang environment
-source "$HOME/.cargo/env"
-[[ ! -f "$HOME/.zfunc/_rustup" ]] && rustup completions zsh > ~/.zfunc/_rustup
-fpath+=~/.zfunc
+# Golang environment
 export PATH="$(go env GOPATH)/bin:$PATH"
 
 fpath=(~/.zsh/completions $fpath)
@@ -23,34 +15,17 @@ autoload -Uz compinit && compinit
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
 [[ ! -d "$ZINIT_HOME" ]] && mkdir -p "$(dirname $ZINIT_HOME)" && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 source "$ZINIT_HOME/zinit.zsh"
-zinit ice depth=1; zinit light romkatv/Powerlevel10k
-[[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-
 # ZSH plugins setup with Zinit
 zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
-zinit snippet OMZ::plugins/git/git.plugin.zsh
-zinit ice wait atload _history_substring_search_config
-zinit load zsh-users/zsh-history-substring-search
-
-# Key bindings for history and vi mode
-bindkey -v
-bindkey -M viins 'jk' vi-cmd-mode
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-bindkey '^N' history-substring-search-down
-bindkey '^P' history-substring-search-up
-HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=1
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND="fg=#03fcf4,bold"
-HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND="fg=#e3625d,bold"
-setopt SHARE_HISTORY HIST_IGNORE_ALL_DUPS INC_APPEND_HISTORY
 
 # Environment configuration for Python, Direnv, Gcloud, and other tools
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$HOME/.jenv/bin:$HOME/.bin:/Users/coletroutman/.local/bin:/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:/Users/coletroutman/.rd/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
+export VIRTUAL_ENV_DISABLE_PROMPT=1
 eval "$(pyenv virtualenv-init -)"
 eval "$(direnv hook zsh)"
 eval "$(jenv init -)"
@@ -59,46 +34,20 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 # Custom scripts and secrets
 export CODE_BASE_REPO="$HOME/code"
 eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init -)"
-source "$HOME/dotfiles/.global.env"
+# TODO: put this in a better place
+source "$HOME/code/colebasaur/dotfiles/.global.env"
 [ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
 
-
-kexec() {
-    local pod=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | fzf --prompt="Select pod: ")
-    if [[ -n "$pod" ]]; then
-      echo "Executing into $pod"
-      kubectl exec -it "$pod" -- /bin/bash || kubectl exec -it "$pod" -- /bin/sh
-    else
-      echo "No pod selected"
-    fi
-}
-
-kpf() {
-  local pod_name=$(kubectl get pods | tail -n +2 | fzf | awk '{print $1}')
-  if [[ -n $pod_name ]]; then
-    echo "Port-forwarding $pod_name :: 6000"
-    kubectl port-forward $pod_name 6000
-  else
-    echo "No pod selected"
-  fi
-}
-
-dba() {
-    docker build --build-arg YV_DOCKER_CACHE="$YV_DOCKER_CACHE" --build-arg YV_REGISTRY="$YV_REGISTRY" "$@"
-}
-
-export PATH="$PATH:/Users/coletroutman/code/lifechurch/youversion/apis/systems/bible/bi-tools"
-
-export JAVA_HOME=/opt/homebrew/opt/openjdk@17
-export PATH="$PATH:$HOME/fvm/versions/3.19.6/bin"
-export PATH="$PATH:$HOME/fvm/versions/3.19.6/bin/cache/dart-sdk/bin"
-# Add melos pub cache to PATH
-export PATH="$PATH:$HOME/.pub-cache/bin"
-
-# bun
-[ -s "/Users/coletroutman/.bun/_bun" ] && source "/Users/coletroutman/.bun/_bun"
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-export JAVA_HOME=/opt/homebrew/opt/openjdk@17
-
 source ~/.aliases
+source ~/.functions
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh)"
+bindkey '^p' atuin-up-search
+bindkey '^n' atuin-down-search
+
+# local start_time=$(gdate +%s%N)
+eval "$(starship init zsh)"
+# local end_time=$(gdate +%s%N)
+# echo "Starship init took: $(((end_time - start_time) / 1000000))ms"

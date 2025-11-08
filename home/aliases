@@ -76,17 +76,8 @@ alias k='kubectl'
 alias kns='kubectl config set-context --current --namespace'
 alias kctx='kubectx'
 
-# zshrs re-source
+# zshrc re-source
 alias rz='source ~/.zshrc'
-
-# jump
-# alias j='. jump'
-# alias jl='j -l'
-# alias jll='j -ll'
-# alias jj='j current'
-
-# clone
-alias clone='. clone'
 
 # mergestat
 alias ms='mergestat'

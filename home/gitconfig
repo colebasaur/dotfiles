@@ -1,6 +1,5 @@
 [init]
   defaultBranch = main
-  templatedir = ~/.git_template
 [push]
   default = current
 [color]
@@ -22,19 +21,13 @@
   gpgsign = true
 [fetch]
   prune = true
-[gpg]
-  format = ssh
 [rebase]
   autosquash = true
-; [include]
-;   path = ~/.gitconfig.local
 [diff]
   colorMoved = zebra
 [user]
-  email = cole.troutman@youversion.com
   name = cole.troutman
-  signingkey = ~/.ssh/id_ed25519
-[url "git@in.thewardro.be:"]
-  insteadOf = https://in.thewardro.be/
+  email = cole.troutman@youversion.com
+  signingkey = 9024E8FCA871B433
 [url "git@gitlab.com:"]
   insteadOf = https://gitlab.com/

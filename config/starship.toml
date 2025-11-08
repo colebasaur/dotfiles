@@ -1,0 +1,26 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$python\
+$kubernetes\
+$line_break\
+$character"""
+
+# Inserts a blank line between shell prompts
+add_newline = false
+
+[python]
+format = '[(\($virtualenv\) )${symbol}${pyenv_prefix}]($style)'
+symbol = ""
+
+[kubernetes]
+disabled = false
+format = '[⎈ $context/$namespace](dimmed green) '
+
+[directory]
+truncation_length = 2
+truncate_to_repo = false

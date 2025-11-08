@@ -1,11 +1,6 @@
 #!/bin/bash
 
-if [[ -z $1 ]]; then
-  echo "Must provide venv name"
-  exit 1
-fi
-
-version="${2:-}"
+version="${1:-}"
 if [[ -z $version ]]; then
   python_version=$(python --version)
   version="${python_version#* }"
@@ -13,12 +8,17 @@ if [[ -z $version ]]; then
 fi
 echo "$version"
 
+if [[ -z $2 ]]; then
+  echo "Must provide venv name"
+  exit 1
+fi
+
 if [[ ! -f "pyrightconfig.json" ]]; then
   cat >pyrightconfig.json <<EOF
 {
   "pythonVersion": "${version}",
   "venvPath": "$HOME/.pyenv/versions",
-  "venv": "$1"
+  "venv": "$2"
 }
 EOF
 fi
@@ -28,7 +28,7 @@ if [[ -z $PYTHONPATH ]]; then
 fi
 
 if [[ -z $PYENV_VERSION ]]; then
-  echo "export PYENV_VERSION=\"$1\"" >>.envrc
+  echo "export PYENV_VERSION=\"$2\"" >>.envrc
 fi
 
 if [[ ! -f Makefile ]]; then
@@ -38,7 +38,7 @@ help:
 	@echo "    Create virtual environment and install requirements"
 venv:
 	@pyenv install ${version} --skip-existing
-	@pyenv virtualenv -f ${version} $1
+	@pyenv virtualenv -f ${version} $2
 EOF
 fi
 
