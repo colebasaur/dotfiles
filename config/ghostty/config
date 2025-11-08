@@ -1,3 +1,6 @@
+# Ghostty Configuration File
+# https://ghostty.org/docs/config/reference
+
 # Main UI
 theme = dark:Catppuccin Mocha,light:Catppuccin Frappe
 macos-titlebar-style = hidden
