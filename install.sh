@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Install Homebrew if not present
+if ! command -v brew &>/dev/null; then
+  echo "Homebrew not found. Installing..."
+  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+else
+  echo "Homebrew already installed"
+fi
+echo "Installing packages from Brewfile..."
+brew bundle install --file="./Brewfile"
+
 # Deploy bin
 echo "Deploying ./bin -> ~/.bin"
 src_dir="$(pwd)/bin"
@@ -59,3 +69,19 @@ for src_file in "$src_dir"/*; do
   filename=$(basename "$src_file")
   ln -sf "$src_file" "$target_dir/.$filename"
 done
+
+echo "Setting default applicaitons to open files..."
+# Set VS Code as default for common text files
+duti -s com.microsoft.VSCode .txt all
+duti -s com.microsoft.VSCode .md all
+duti -s com.microsoft.VSCode .log all
+duti -s com.microsoft.VSCode .json all
+duti -s com.microsoft.VSCode .xml all
+duti -s com.microsoft.VSCode .yaml all
+duti -s com.microsoft.VSCode .yml all
+duti -s com.microsoft.VSCode .sh all
+duti -s com.microsoft.VSCode .py all
+duti -s com.microsoft.VSCode .js all
+duti -s com.microsoft.VSCode .ts all
+duti -s com.microsoft.VSCode .css all
+duti -s com.microsoft.VSCode public.plain-text all
