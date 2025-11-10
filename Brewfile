@@ -3,6 +3,7 @@ brew "colima", restart_service: :changed
 brew "direnv"
 brew "docker"
 brew "duti"
+brew "fd"
 brew "fzf"
 brew "gnupg"
 brew "go"
