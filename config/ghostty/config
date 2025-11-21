@@ -24,3 +24,6 @@ mouse-hide-while-typing = true
 
 # Misc
 link-url = true
+link-previews = true
+
+bell-features = no-system, no-audio, no-title, no-border, no-attention

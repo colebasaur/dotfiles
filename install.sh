@@ -72,16 +72,16 @@ done
 
 echo "Setting default applicaitons to open files..."
 # Set VS Code as default for common text files
-duti -s com.microsoft.VSCode .txt all
-duti -s com.microsoft.VSCode .md all
-duti -s com.microsoft.VSCode .log all
-duti -s com.microsoft.VSCode .json all
-duti -s com.microsoft.VSCode .xml all
-duti -s com.microsoft.VSCode .yaml all
-duti -s com.microsoft.VSCode .yml all
-duti -s com.microsoft.VSCode .sh all
-duti -s com.microsoft.VSCode .py all
-duti -s com.microsoft.VSCode .js all
-duti -s com.microsoft.VSCode .ts all
-duti -s com.microsoft.VSCode .css all
-duti -s com.microsoft.VSCode public.plain-text all
+duti -s dev.zed.Zed .txt all
+duti -s dev.zed.Zed .md all
+duti -s dev.zed.Zed .log all
+duti -s dev.zed.Zed .json all
+duti -s dev.zed.Zed .xml all
+duti -s dev.zed.Zed .yaml all
+duti -s dev.zed.Zed .yml all
+duti -s dev.zed.Zed .sh all
+duti -s dev.zed.Zed .py all
+duti -s dev.zed.Zed .js all
+duti -s dev.zed.Zed .ts all
+duti -s dev.zed.Zed .css all
+duti -s dev.zed.Zed public.plain-text all
