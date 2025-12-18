@@ -1,0 +1,25 @@
+# Official Arch packages
+# Install with: omarchy-pkg-install
+# Or manually: sudo pacman -S <package>
+
+zsh
+tmux
+neovim
+git
+docker
+docker-compose
+go
+nodejs
+npm
+python
+python-pip
+fzf
+ripgrep
+fd
+direnv
+gnupg
+kubectl
+kubectx
+mysql-clients
+postgresql-libs
+graphviz

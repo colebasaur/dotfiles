@@ -1,0 +1,14 @@
+# Organization-specific settings for YouVersion/LifeChurch
+# This file is sourced conditionally and won't break systems without these tools
+
+# YouVersion CLI tool
+YV_TOOL_PATH="$HOME/code/lifechurch/youversion/apis/tools/yv/bin/yv"
+if [[ -f "$YV_TOOL_PATH" ]]; then
+  eval "$($YV_TOOL_PATH init -)"
+fi
+
+# Organization environment variables
+YV_ENV_FILE="$HOME/code/colebasaur/dotfiles/.global.env"
+if [[ -f "$YV_ENV_FILE" ]]; then
+  source "$YV_ENV_FILE"
+fi

@@ -1,0 +1,9 @@
+# AUR packages
+# Install with: omarchy-pkg-aur-install
+# Or manually: yay -S <package>
+
+jenv
+pyenv
+python-pyenv-virtualenv
+google-cloud-cli
+ttf-jetbrains-mono-nerd

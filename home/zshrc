@@ -1,9 +1,14 @@
 # Set NVIM as the default editor
 export EDITOR='nvim'
 
-# Homebrew setup
-export HOMEBREW_BIN="/opt/homebrew/bin"
-[[ -f "$HOMEBREW_BIN/brew" ]] && eval "$($HOMEBREW_BIN/brew shellenv)"
+# Homebrew setup (macOS only)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  if [[ -f "/opt/homebrew/bin/brew" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -f "/usr/local/bin/brew" ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+fi
 
 # Golang environment
 export PATH="$(go env GOPATH)/bin:$PATH"
@@ -20,9 +25,29 @@ zinit light zsh-users/zsh-syntax-highlighting
 zinit light zsh-users/zsh-completions
 zinit light zsh-users/zsh-autosuggestions
 
+# Load platform-specific configuration
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  [[ -f "$HOME/.zshrc.macos" ]] && source "$HOME/.zshrc.macos"
+else
+  [[ -f "$HOME/.zshrc.linux" ]] && source "$HOME/.zshrc.linux"
+fi
+
 # Environment configuration for Python, Direnv, Gcloud, and other tools
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$HOME/.jenv/bin:$HOME/.bin:/Users/coletroutman/.local/bin:/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:/Users/coletroutman/.rd/bin:$PATH"
+
+# Core PATH elements
+export PATH="$PYENV_ROOT/bin:$PATH"
+export PATH="$HOME/.jenv/bin:$PATH"
+export PATH="$HOME/.bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
+
+# Platform-specific PATH additions
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  [[ -n "$HOMEBREW_PREFIX" ]] && export PATH="$HOMEBREW_PREFIX/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:$PATH"
+  [[ -d "$HOME/.rd/bin" ]] && export PATH="$HOME/.rd/bin:$PATH"
+else
+  [[ -d "/opt/google-cloud-sdk/bin" ]] && export PATH="/opt/google-cloud-sdk/bin:$PATH"
+fi
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -33,10 +58,14 @@ export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 
 # Custom scripts and secrets
 export CODE_BASE_REPO="$HOME/code"
-eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init -)"
-# TODO: put this in a better place
-source "$HOME/code/colebasaur/dotfiles/.global.env"
-[ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
+
+# autojump - only on macOS (Omarchy uses enhanced cd by default)
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  [[ -f "$HOMEBREW_PREFIX/etc/profile.d/autojump.sh" ]] && . "$HOMEBREW_PREFIX/etc/profile.d/autojump.sh"
+fi
+
+# Load organization-specific settings (if file exists)
+[[ -f "$HOME/.zshrc.work" ]] && source "$HOME/.zshrc.work"
 
 source ~/.aliases
 source ~/.functions
@@ -47,9 +76,18 @@ eval "$(atuin init zsh)"
 bindkey '^p' atuin-up-search
 bindkey '^n' atuin-down-search
 
-# local start_time=$(gdate +%s%N)
+# Uncomment to measure starship init time
+# if [[ "$OSTYPE" == "darwin"* ]]; then
+#   local start_time=$(gdate +%s%N)
+# else
+#   local start_time=$(date +%s%N)
+# fi
 eval "$(starship init zsh)"
-# local end_time=$(gdate +%s%N)
+# if [[ "$OSTYPE" == "darwin"* ]]; then
+#   local end_time=$(gdate +%s%N)
+# else
+#   local end_time=$(date +%s%N)
+# fi
 # echo "Starship init took: $(((end_time - start_time) / 1000000))ms"
 
 . "$HOME/.local/share/../bin/env"
