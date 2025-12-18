@@ -51,3 +51,5 @@ bindkey '^n' atuin-down-search
 eval "$(starship init zsh)"
 # local end_time=$(gdate +%s%N)
 # echo "Starship init took: $(((end_time - start_time) / 1000000))ms"
+
+. "$HOME/.local/share/../bin/env"

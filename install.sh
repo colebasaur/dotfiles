@@ -1,14 +1,14 @@
 #!/bin/bash
 
 # Install Homebrew if not present
-if ! command -v brew &>/dev/null; then
-  echo "Homebrew not found. Installing..."
-  /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-else
-  echo "Homebrew already installed"
-fi
-echo "Installing packages from Brewfile..."
-brew bundle install --file="./Brewfile"
+# if ! command -v brew &>/dev/null; then
+#   echo "Homebrew not found. Installing..."
+#   /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# else
+#   echo "Homebrew already installed"
+# fi
+# echo "Installing packages from Brewfile..."
+# brew bundle install --file="./Brewfile"
 
 # Deploy bin
 echo "Deploying ./bin -> ~/.bin"
@@ -70,18 +70,18 @@ for src_file in "$src_dir"/*; do
   ln -sf "$src_file" "$target_dir/.$filename"
 done
 
-echo "Setting default applicaitons to open files..."
-# Set VS Code as default for common text files
-duti -s dev.zed.Zed .txt all
-duti -s dev.zed.Zed .md all
-duti -s dev.zed.Zed .log all
-duti -s dev.zed.Zed .json all
-duti -s dev.zed.Zed .xml all
-duti -s dev.zed.Zed .yaml all
-duti -s dev.zed.Zed .yml all
-duti -s dev.zed.Zed .sh all
-duti -s dev.zed.Zed .py all
-duti -s dev.zed.Zed .js all
-duti -s dev.zed.Zed .ts all
-duti -s dev.zed.Zed .css all
-duti -s dev.zed.Zed public.plain-text all
+# echo "Setting default applicaitons to open files..."
+# # Set VS Code as default for common text files
+# duti -s dev.zed.Zed .txt all
+# duti -s dev.zed.Zed .md all
+# duti -s dev.zed.Zed .log all
+# duti -s dev.zed.Zed .json all
+# duti -s dev.zed.Zed .xml all
+# duti -s dev.zed.Zed .yaml all
+# duti -s dev.zed.Zed .yml all
+# duti -s dev.zed.Zed .sh all
+# duti -s dev.zed.Zed .py all
+# duti -s dev.zed.Zed .js all
+# duti -s dev.zed.Zed .ts all
+# duti -s dev.zed.Zed .css all
+# duti -s dev.zed.Zed public.plain-text all
