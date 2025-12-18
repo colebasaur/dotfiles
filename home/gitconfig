@@ -13,12 +13,10 @@
   pf = push --force-with-lease
   st = status
 [core]
-	excludesfile = /Users/coletroutman/.gitignore
+	excludesfile = ~/.gitignore
   autocrlf = input
 [merge]
   ff = only
-[commit]
-  gpgsign = true
 [fetch]
   prune = true
 [rebase]
@@ -26,8 +24,7 @@
 [diff]
   colorMoved = zebra
 [user]
-  name = cole.troutman
-  email = cole.troutman@youversion.com
-  signingkey = 9024E8FCA871B433
+  name = colebasaur
+  email = troutmancole12@gmail.com
 [url "git@gitlab.com:"]
   insteadOf = https://gitlab.com/

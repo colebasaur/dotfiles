@@ -1,1 +1,12 @@
 .global.env
+
+# Machine-specific configs - manage separately on each system
+config/hypr/monitors.conf
+
+# Terminal configs we don't use
+config/kitty/
+config/alacritty/
+
+# Cache and auto-generated files
+config/*/cache/
+config/*/.cache/

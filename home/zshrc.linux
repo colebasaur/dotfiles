@@ -1,0 +1,28 @@
+# Linux-specific zsh configuration
+
+# Omarchy/Arch package management aliases
+if [[ -f /etc/os-release ]]; then
+  . /etc/os-release
+  if [[ "$ID" == "arch" ]] || [[ "$ID_LIKE" == *"arch"* ]]; then
+    # Use Omarchy's interactive package tools
+    alias pkg-install='omarchy-pkg-install'
+    alias pkg-aur='omarchy-pkg-aur-install'
+    alias pkg-update='sudo pacman -Syu'
+    alias pkg-search='pacman -Ss'
+    alias pkg-remove='sudo pacman -Rns'
+  fi
+fi
+
+# Clipboard utilities (X11 or Wayland)
+if command -v xclip &>/dev/null; then
+  alias clip='xclip -selection clipboard'
+  alias clipp='xclip -selection clipboard -o'
+elif command -v wl-copy &>/dev/null; then
+  alias clip='wl-copy'
+  alias clipp='wl-paste'
+fi
+
+# systemd shortcuts
+alias sysl='systemctl'
+alias syslu='systemctl --user'
+alias jctl='journalctl'

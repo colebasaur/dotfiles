@@ -1,0 +1,18 @@
+# macOS-specific zsh configuration
+
+# GNU coreutils (if installed via Homebrew for better compatibility)
+if [[ -n "$HOMEBREW_PREFIX" ]] && [[ -d "$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin" ]]; then
+  export PATH="$HOMEBREW_PREFIX/opt/coreutils/libexec/gnubin:$PATH"
+fi
+
+# macOS-specific aliases
+alias show='open -R'                    # Reveal in Finder
+alias hide='chflags hidden'             # Hide file/folder
+alias clip='pbcopy'                     # Copy to clipboard
+alias clipp='pbpaste'                   # Paste from clipboard
+alias ql='qlmanage -p'                  # Quick Look preview
+
+# Omarchy-style package aliases for consistency
+alias pkg-install='brew install'
+alias pkg-search='brew search'
+alias pkg-update='brew update && brew upgrade'

@@ -54,4 +54,10 @@ fi
 
 # Run the final command to search and replace
 # echo "$command | xargs grep -l '$search_string' | xargs sed -i '' 's|$search_string|$replace_string|g'"
-eval "$command | xargs grep -l '$search_string' | xargs sed -i '' 's|$search_string|$replace_string|g'"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # BSD sed (macOS) requires empty string after -i
+  eval "$command | xargs grep -l '$search_string' | xargs sed -i '' 's|$search_string|$replace_string|g'"
+else
+  # GNU sed (Linux)
+  eval "$command | xargs grep -l '$search_string' | xargs sed -i 's|$search_string|$replace_string|g'"
+fi
