@@ -28,7 +28,7 @@ zinit light zsh-users/zsh-autosuggestions
 
 # Environment configuration for Python, Direnv, Gcloud, and other tools
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$HOME/.jenv/bin:$HOME/.bin:/Users/coletroutman/.local/bin:/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:/Users/coletroutman/.rd/bin:$PATH"
+export PATH="$PYENV_ROOT/bin:$HOME/.jenv/bin:$HOME/.bin:$HOME/.local/bin:/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:$HOME/.rd/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(pyenv init -)"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
@@ -38,14 +38,12 @@ eval "$(jenv init -)"
 export PATH=/opt/homebrew/share/google-cloud-sdk/bin:"$PATH"
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 # Flutter stuffs
-export PATH="/Users/coletroutman/fvm/bin:$PATH"
-export PATH="$PATH:$HOME/.pub-cache/bin"
-export PATH="$HOME/fvm/default/bin:$HOME/fvm/bin:$PATH"
+export PATH="$HOME/fvm/default/bin:$HOME/fvm/bin:$HOME/.pub-cache/bin:$PATH"
 # end Flutter stuffs
 
 # Custom scripts and secrets
 export CODE_BASE_REPO="$HOME/code"
-eval "$(/Users/coletroutman/code/lifechurch/youversion/apis/tools/yv/bin/yv init -)"
+eval "$("$HOME/code/lifechurch/youversion/apis/tools/yv/bin/yv" init -)"
 # TODO: put this in a better place
 source "$HOME/code/colebasaur/dotfiles/.global.env"
 [ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh

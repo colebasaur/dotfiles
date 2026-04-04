@@ -1,4 +1,7 @@
 #!/bin/bash
+set -euo pipefail
+
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 # Install Homebrew if not present
 if ! command -v brew &>/dev/null; then
@@ -8,11 +11,11 @@ else
   echo "Homebrew already installed"
 fi
 echo "Installing packages from Brewfile..."
-brew bundle install --file="./Brewfile"
+brew bundle install --file="$DOTFILES_DIR/Brewfile"
 
 # Deploy bin
 echo "Deploying ./bin -> ~/.bin"
-src_dir="$(pwd)/bin"
+src_dir="$DOTFILES_DIR/bin"
 target_link="$HOME/.bin"
 if [ -L "$target_link" ]; then
   if [ "$(readlink "$target_link")" != "$src_dir" ]; then
@@ -29,8 +32,9 @@ echo
 
 # Deploy config directories
 echo "Deploying ./config/* to ~/.config/*"
-src_dir="$(pwd)/config"
+src_dir="$DOTFILES_DIR/config"
 target_dir="$HOME/.config"
+mkdir -p "$target_dir"
 for src_file in "$src_dir"/*; do
   filename=$(basename "$src_file")
   target_link="$target_dir/$filename"
@@ -50,7 +54,7 @@ echo
 
 # Deploy home files
 echo "Deploying ./home/* to ~/.*"
-src_dir="$(pwd)/home"
+src_dir="$DOTFILES_DIR/home"
 target_dir="$HOME"
 for src_file in "$src_dir"/*; do
   filename=$(basename "$src_file")
@@ -66,12 +70,10 @@ for src_file in "$src_dir"/*; do
     echo "Creating symlink: $target_link -> $src_file"
     ln -sfn "$src_file" "$target_link"
   fi
-  filename=$(basename "$src_file")
-  ln -sf "$src_file" "$target_dir/.$filename"
 done
 
-echo "Setting default applicaitons to open files..."
-# Set VS Code as default for common text files
+echo "Setting default applications to open files..."
+# Set Zed as default for common text files
 duti -s dev.zed.Zed .txt all
 duti -s dev.zed.Zed .md all
 duti -s dev.zed.Zed .log all

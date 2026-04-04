@@ -1,26 +1,44 @@
+# Shell & terminal
+brew "atuin"
 brew "autojump"
-brew "colima", restart_service: :changed
 brew "direnv"
-brew "docker"
-brew "duti"
+brew "starship"
+brew "tmux"
+
+# Search & navigation
 brew "fd"
 brew "fzf"
-brew "gnupg"
+brew "ripgrep"
+
+# Languages & runtimes
 brew "go"
-brew "icu4c@76"
-brew "graphviz"
 brew "jenv"
-brew "kubernetes-cli"
-brew "kubectx"
-brew "mysql-client"
-brew "neovim"
 brew "node"
-brew "postgresql@14"
 brew "pyenv"
 brew "pyenv-virtualenv"
-brew "ripgrep"
-brew "tmux"
+
+# Version managers
+brew "asdf"
+
+# Containers & Kubernetes
+brew "colima", restart_service: :changed
+brew "docker"
+brew "kubernetes-cli"
+brew "kubectx"
+
+# Databases
 brew "libmemcached"
+brew "mysql-client"
+brew "postgresql@14"
+
+# Dev tools
+brew "duti"
+brew "gnupg"
+brew "graphviz"
+brew "icu4c@76"
+brew "neovim"
+
+# GUI apps
 cask "gcloud-cli"
 cask "visual-studio-code"
 cask "zed"

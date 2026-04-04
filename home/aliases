@@ -25,7 +25,6 @@ alias gup='git fetch && git rebase'
 compdef _git gup=git-fetch
 alias gp='git push'
 compdef _git gp=git-push
-gdv() { git diff -w "$@" | view - }
 compdef _git gdv=git-diff
 alias gc='git commit -v'
 compdef _git gc=git-commit
@@ -35,7 +34,7 @@ alias gca='git commit --amend'
 compdef _git gca=git-commit
 alias gco='git checkout'
 compdef _git gco=git-checkout
-alias gcm='git checkout master'
+alias gcm='git checkout main'
 alias gb='git branch'
 compdef _git gb=git-branch
 alias gba='git branch -a'

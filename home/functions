@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/bin/zsh
+
+gdv() { git diff -w "$@" | view - }
 
 clone() {
   local version="2.0.0"
