@@ -1,6 +1,16 @@
-*.pyc
+# OS
+.DS_Store
+
+# Editors & IDEs
 *.sw[nop]
-*.DS_Store
+.vscode/
+
+# Languages & build artifacts
+*.pyc
+.python-version
+.go-version
+
+# Frameworks & package managers
 .bundle
 .byebug_history
 .env
@@ -15,14 +25,15 @@ log/*.log
 rerun.txt
 tmp/**/*
 /tags
+
+# Project-specific
 .envrc
 /my_scripts
 pyrightconfig.json
-.python-version
 kls_database.db
 *.rendered.yaml
-.claude/
 .poc/
-.vscode/
-.go-version
+
+# Tools
+.claude/
 startup.log

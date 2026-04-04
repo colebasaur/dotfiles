@@ -1,6 +1,11 @@
 #!/bin/zsh
 
-gdv() { git diff -w "$@" | view - }
+# Git
+
+gdv()  { git diff -w "$@" | nvim -R - }
+gdsv() { git diff --cached -w "$@" | nvim -R - }
+
+# Git — Clone helper
 
 clone() {
   local version="2.0.0"
@@ -198,6 +203,8 @@ clone() {
   esac
 }
 
+# Kubernetes
+
 kexec() {
     local pod=$(kubectl get pods --no-headers -o custom-columns=":metadata.name" | fzf --prompt="Select pod: ")
     if [[ -n "$pod" ]]; then
@@ -207,6 +214,8 @@ kexec() {
       echo "No pod selected"
     fi
 }
+
+# Docker
 
 dba() {
     docker build --build-arg YV_DOCKER_CACHE="$YV_DOCKER_CACHE" --build-arg YV_REGISTRY="$YV_REGISTRY" "$@"

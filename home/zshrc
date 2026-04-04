@@ -1,14 +1,43 @@
-# Set NVIM as the default editor
+# Editor
 export EDITOR='nvim'
 
-# Homebrew setup
+# Homebrew
 export HOMEBREW_BIN="/opt/homebrew/bin"
 [[ -f "$HOMEBREW_BIN/brew" ]] && eval "$($HOMEBREW_BIN/brew shellenv)"
 
-# Goenv - lazy-loaded on first use
+# Completions
+fpath=(~/.zsh/completions $fpath)
+autoload -Uz compinit && compinit
+
+# Zinit plugins
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+[[ ! -d "$ZINIT_HOME" ]] && mkdir -p "$(dirname $ZINIT_HOME)" && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+source "$ZINIT_HOME/zinit.zsh"
+zinit light zsh-users/zsh-syntax-highlighting
+zinit light zsh-users/zsh-completions
+zinit light zsh-users/zsh-autosuggestions
+
+# PATH
+export PYENV_ROOT="$HOME/.pyenv"
 export GOENV_ROOT="$HOME/.goenv"
+export PATH=\
+"$GOENV_ROOT/bin:"\
+"$PYENV_ROOT/bin:"\
+"$HOME/.jenv/bin:"\
+"$HOME/.asdf/shims:"\
+"$HOME/.bin:"\
+"$HOME/.local/bin:"\
+"$HOME/.pub-cache/bin:"\
+"$HOME/fvm/default/bin:"\
+"$HOME/fvm/bin:"\
+"/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:"\
+"/opt/homebrew/share/google-cloud-sdk/bin:"\
+"$HOME/.rd/bin:"\
+"$PATH"
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+
+# Goenv — lazy-loaded on first use
 export GOENV_PATH_ORDER=front
-export PATH="$GOENV_ROOT/bin:$PATH"
 _init_goenv() {
   unfunction goenv go 2>/dev/null
   eval "$(command goenv init -)"
@@ -18,23 +47,7 @@ _init_goenv() {
 goenv() { _init_goenv; command goenv "$@" }
 go()    { _init_goenv; command go "$@" }
 
-fpath=(~/.zsh/completions $fpath)
-autoload -Uz compinit && compinit
-
-# Zinit Plugin Manager initialization
-ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-[[ ! -d "$ZINIT_HOME" ]] && mkdir -p "$(dirname $ZINIT_HOME)" && git clone https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
-source "$ZINIT_HOME/zinit.zsh"
-# ZSH plugins setup with Zinit
-zinit light zsh-users/zsh-syntax-highlighting
-zinit light zsh-users/zsh-completions
-zinit light zsh-users/zsh-autosuggestions
-
-# Environment configuration for Python, Direnv, Gcloud, and other tools
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$HOME/.jenv/bin:$HOME/.bin:$HOME/.local/bin:/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:$HOME/.rd/bin:$PATH"
-export VIRTUAL_ENV_DISABLE_PROMPT=1
-# pyenv - lazy-loaded on first use
+# Pyenv — lazy-loaded on first use
 _init_pyenv() {
   unfunction pyenv python python3 pip pip3 2>/dev/null
   eval "$(command pyenv init --path)"
@@ -46,8 +59,9 @@ python()  { _init_pyenv; command python "$@" }
 python3() { _init_pyenv; command python3 "$@" }
 pip()     { _init_pyenv; command pip "$@" }
 pip3()    { _init_pyenv; command pip3 "$@" }
-eval "$(direnv hook zsh)"
-# jenv - lazy-loaded on first use
+
+# Jenv — lazy-loaded on first use
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17
 _init_jenv() {
   unfunction jenv java javac 2>/dev/null
   eval "$(command jenv init -)"
@@ -55,37 +69,39 @@ _init_jenv() {
 jenv()  { _init_jenv; command jenv "$@" }
 java()  { _init_jenv; command java "$@" }
 javac() { _init_jenv; command javac "$@" }
-export PATH=/opt/homebrew/share/google-cloud-sdk/bin:"$PATH"
-export USE_GKE_GCLOUD_AUTH_PLUGIN=True
-# Flutter stuffs
-export PATH="$HOME/fvm/default/bin:$HOME/fvm/bin:$HOME/.pub-cache/bin:$PATH"
-# end Flutter stuffs
 
-# Custom scripts and secrets
-export CODE_BASE_REPO="$HOME/code"
-export DOTFILES="$CODE_BASE_REPO/colebasaur/dotfiles"
-eval "$("$CODE_BASE_REPO/lifechurch/youversion/apis/tools/yv/bin/yv" init -)"
-source "$DOTFILES/.global.env"
-[ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
-
-source ~/.aliases
-source ~/.functions
-
-. "$HOME/.atuin/bin/env"
-# asdf - lazy-loaded on first use; shims on PATH eagerly so managed binaries resolve
-export PATH="$HOME/.asdf/shims:$PATH"
+# asdf — lazy-loaded on first use; shims on PATH eagerly so managed binaries resolve
 _init_asdf() {
   unfunction asdf 2>/dev/null
   . /opt/homebrew/opt/asdf/libexec/asdf.sh
 }
 asdf() { _init_asdf; command asdf "$@" }
 
+# Direnv
+eval "$(direnv hook zsh)"
+
+# Google Cloud SDK
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+
+# Flutter
+export FLUTTER_ROOT="$HOME/fvm/default"
+
+# Custom scripts & secrets
+export CODE_BASE_REPO="$HOME/code"
+export DOTFILES="$CODE_BASE_REPO/colebasaur/dotfiles"
+eval "$("$CODE_BASE_REPO/lifechurch/youversion/apis/tools/yv/bin/yv" init -)"
+source "$DOTFILES/.global.env"
+[ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
+
+# Aliases & functions
+source ~/.aliases
+source ~/.functions
+
+# Atuin (shell history)
+. "$HOME/.atuin/bin/env"
 eval "$(atuin init zsh)"
 bindkey '^p' atuin-up-search
 bindkey '^n' atuin-down-search
 
-# local start_time=$(gdate +%s%N)
+# Starship prompt
 eval "$(starship init zsh)"
-# local end_time=$(gdate +%s%N)
-# echo "Starship init took: $(((end_time - start_time) / 1000000))ms"
-export JAVA_HOME=/opt/homebrew/opt/openjdk@17
