@@ -13,6 +13,15 @@ fi
 echo "Installing packages from Brewfile..."
 brew bundle install --file="$DOTFILES_DIR/Brewfile"
 
+# Install TPM (Tmux Plugin Manager)
+TPM_DIR="$HOME/.tmux/plugins/tpm"
+if [ -d "$TPM_DIR" ]; then
+  echo "TPM already installed"
+else
+  echo "Installing TPM..."
+  git clone https://github.com/tmux-plugins/tpm "$TPM_DIR"
+fi
+
 # Deploy bin
 echo "Deploying ./bin -> ~/.bin"
 src_dir="$DOTFILES_DIR/bin"

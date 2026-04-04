@@ -208,16 +208,6 @@ kexec() {
     fi
 }
 
-kpf() {
-  local pod_name=$(kubectl get pods | tail -n +2 | fzf | awk '{print $1}')
-  if [[ -n $pod_name ]]; then
-    echo "Port-forwarding $pod_name :: 6000"
-    kubectl port-forward $pod_name 6000
-  else
-    echo "No pod selected"
-  fi
-}
-
 dba() {
     docker build --build-arg YV_DOCKER_CACHE="$YV_DOCKER_CACHE" --build-arg YV_REGISTRY="$YV_REGISTRY" "$@"
 }

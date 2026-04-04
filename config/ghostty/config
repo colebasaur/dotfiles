@@ -25,6 +25,9 @@ cursor-color = #86EFD1
 cursor-opacity = 0.8
 mouse-hide-while-typing = true
 
+# Terminal
+term = xterm-256color
+
 # Misc
 link-url = true
 link-previews = true

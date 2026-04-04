@@ -40,18 +40,18 @@ escape_dot() {
   echo "$1" | sed 's/\./\\./g' | sed 's/\*/\.\*/g'
 }
 
-# Start with the basic command
-command="git ls-files"
-
-# Include Files
+# Build file list
 if [ -n "$include_files" ]; then
-  command="$command $include_files"
-fi
-# Exclude Files
-if [ -n "$exclude_files" ]; then
-  command="$command | grep -vE '$(escape_dot $exclude_files)'"
+  # shellcheck disable=SC2086 - intentional word-splitting for include patterns
+  file_list=$(git ls-files $include_files)
+else
+  file_list=$(git ls-files)
 fi
 
-# Run the final command to search and replace
-# echo "$command | xargs grep -l '$search_string' | xargs sed -i '' 's|$search_string|$replace_string|g'"
-eval "$command | xargs grep -l '$search_string' | xargs sed -i '' 's|$search_string|$replace_string|g'"
+# Apply exclude filter if specified
+if [ -n "$exclude_files" ]; then
+  file_list=$(echo "$file_list" | grep -vE "$(escape_dot "$exclude_files")")
+fi
+
+# Search and replace
+echo "$file_list" | xargs grep -l -- "$search_string" | xargs sed -i '' "s|$search_string|$replace_string|g"

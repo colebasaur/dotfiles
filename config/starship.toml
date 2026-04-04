@@ -7,6 +7,7 @@ $git_branch\
 $git_status\
 $python\
 $kubernetes\
+$cmd_duration\
 $line_break\
 $character"""
 
@@ -24,3 +25,8 @@ format = '[⎈ $context/$namespace](dimmed green) '
 [directory]
 truncation_length = 2
 truncate_to_repo = false
+
+[cmd_duration]
+min_time = 2_000
+format = "[$duration]($style) "
+style = "bold yellow"

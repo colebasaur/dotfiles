@@ -5,14 +5,18 @@ export EDITOR='nvim'
 export HOMEBREW_BIN="/opt/homebrew/bin"
 [[ -f "$HOMEBREW_BIN/brew" ]] && eval "$($HOMEBREW_BIN/brew shellenv)"
 
-# Goenv
+# Goenv - lazy-loaded on first use
 export GOENV_ROOT="$HOME/.goenv"
 export GOENV_PATH_ORDER=front
 export PATH="$GOENV_ROOT/bin:$PATH"
-eval "$(goenv init -)"
-export PATH="$GOENV_ROOT/shims:$PATH"
-# Golang environment (after goenv so it uses the goenv-managed Go)
-export PATH="$(go env GOPATH)/bin:$PATH"
+_init_goenv() {
+  unfunction goenv go 2>/dev/null
+  eval "$(command goenv init -)"
+  export PATH="$GOENV_ROOT/shims:$PATH"
+  export PATH="$(command go env GOPATH)/bin:$PATH"
+}
+goenv() { _init_goenv; command goenv "$@" }
+go()    { _init_goenv; command go "$@" }
 
 fpath=(~/.zsh/completions $fpath)
 autoload -Uz compinit && compinit
@@ -29,12 +33,28 @@ zinit light zsh-users/zsh-autosuggestions
 # Environment configuration for Python, Direnv, Gcloud, and other tools
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$HOME/.jenv/bin:$HOME/.bin:$HOME/.local/bin:/opt/homebrew/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/bin:$HOME/.rd/bin:$PATH"
-eval "$(pyenv init --path)"
-eval "$(pyenv init -)"
 export VIRTUAL_ENV_DISABLE_PROMPT=1
-eval "$(pyenv virtualenv-init -)"
+# pyenv - lazy-loaded on first use
+_init_pyenv() {
+  unfunction pyenv python python3 pip pip3 2>/dev/null
+  eval "$(command pyenv init --path)"
+  eval "$(command pyenv init -)"
+  eval "$(command pyenv virtualenv-init -)"
+}
+pyenv()   { _init_pyenv; command pyenv "$@" }
+python()  { _init_pyenv; command python "$@" }
+python3() { _init_pyenv; command python3 "$@" }
+pip()     { _init_pyenv; command pip "$@" }
+pip3()    { _init_pyenv; command pip3 "$@" }
 eval "$(direnv hook zsh)"
-eval "$(jenv init -)"
+# jenv - lazy-loaded on first use
+_init_jenv() {
+  unfunction jenv java javac 2>/dev/null
+  eval "$(command jenv init -)"
+}
+jenv()  { _init_jenv; command jenv "$@" }
+java()  { _init_jenv; command java "$@" }
+javac() { _init_jenv; command javac "$@" }
 export PATH=/opt/homebrew/share/google-cloud-sdk/bin:"$PATH"
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 # Flutter stuffs
@@ -43,16 +63,22 @@ export PATH="$HOME/fvm/default/bin:$HOME/fvm/bin:$HOME/.pub-cache/bin:$PATH"
 
 # Custom scripts and secrets
 export CODE_BASE_REPO="$HOME/code"
-eval "$("$HOME/code/lifechurch/youversion/apis/tools/yv/bin/yv" init -)"
-# TODO: put this in a better place
-source "$HOME/code/colebasaur/dotfiles/.global.env"
+export DOTFILES="$CODE_BASE_REPO/colebasaur/dotfiles"
+eval "$("$CODE_BASE_REPO/lifechurch/youversion/apis/tools/yv/bin/yv" init -)"
+source "$DOTFILES/.global.env"
 [ -f $HOMEBREW_PREFIX/etc/profile.d/autojump.sh ] && . $HOMEBREW_PREFIX/etc/profile.d/autojump.sh
 
 source ~/.aliases
 source ~/.functions
 
 . "$HOME/.atuin/bin/env"
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
+# asdf - lazy-loaded on first use; shims on PATH eagerly so managed binaries resolve
+export PATH="$HOME/.asdf/shims:$PATH"
+_init_asdf() {
+  unfunction asdf 2>/dev/null
+  . /opt/homebrew/opt/asdf/libexec/asdf.sh
+}
+asdf() { _init_asdf; command asdf "$@" }
 
 eval "$(atuin init zsh)"
 bindkey '^p' atuin-up-search

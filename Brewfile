@@ -12,6 +12,7 @@ brew "ripgrep"
 
 # Languages & runtimes
 brew "go"
+brew "goenv"
 brew "jenv"
 brew "node"
 brew "pyenv"
@@ -39,6 +40,10 @@ brew "icu4c@76"
 brew "neovim"
 
 # GUI apps
+cask "ghostty"
 cask "gcloud-cli"
 cask "visual-studio-code"
 cask "zed"
+
+# Fonts
+cask "font-martian-mono-nerd-font"
