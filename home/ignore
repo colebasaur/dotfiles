@@ -3,3 +3,4 @@
 !my_scripts
 !pyrightconfig.json
 !.gitlab-ci.yml
+!.global.env
