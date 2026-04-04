@@ -9,6 +9,9 @@ return {
       always_show_bufferline = true,
     },
     highlights = {
+      fill = {
+        bg = "#222436",
+      },
       buffer_selected = {
         fg = "#86f0d0",
       },

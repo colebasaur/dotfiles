@@ -8,6 +8,8 @@ theme = dark:Lovelace,light:Catppuccin Frappe
 # theme = dark:Zenburn,light:Catppuccin Frappe
 macos-titlebar-style = hidden
 maximize = true
+window-padding-color = extend
+window-padding-y = 0
 
 # Font
 font-family = "MartianMono Nerd Font"

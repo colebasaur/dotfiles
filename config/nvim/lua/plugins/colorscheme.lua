@@ -1,22 +1,10 @@
 return {
-  {
-    "catppuccin/nvim",
-    opts = {
-      flavour = "mocha",
-      transparent_background = true,
-      float = {
-        transparent = true,
-      },
-      styles = {
-        comments = { "italic" },
-      },
-    },
-  },
-  -- Configure LazyVim to load colorscheme
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "catppuccin",
-    },
+  "folke/tokyonight.nvim",
+  lazy = true,
+  opts = {
+    style = "moon",
+    on_highlights = function(hl, _)
+      hl.ColorColumn = { bg = "#2F334D" }
+    end,
   },
 }
