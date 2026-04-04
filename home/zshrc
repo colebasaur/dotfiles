@@ -5,7 +5,13 @@ export EDITOR='nvim'
 export HOMEBREW_BIN="/opt/homebrew/bin"
 [[ -f "$HOMEBREW_BIN/brew" ]] && eval "$($HOMEBREW_BIN/brew shellenv)"
 
-# Golang environment
+# Goenv
+export GOENV_ROOT="$HOME/.goenv"
+export GOENV_PATH_ORDER=front
+export PATH="$GOENV_ROOT/bin:$PATH"
+eval "$(goenv init -)"
+export PATH="$GOENV_ROOT/shims:$PATH"
+# Golang environment (after goenv so it uses the goenv-managed Go)
 export PATH="$(go env GOPATH)/bin:$PATH"
 
 fpath=(~/.zsh/completions $fpath)
@@ -29,7 +35,13 @@ export VIRTUAL_ENV_DISABLE_PROMPT=1
 eval "$(pyenv virtualenv-init -)"
 eval "$(direnv hook zsh)"
 eval "$(jenv init -)"
+export PATH=/opt/homebrew/share/google-cloud-sdk/bin:"$PATH"
 export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+# Flutter stuffs
+export PATH="/Users/coletroutman/fvm/bin:$PATH"
+export PATH="$PATH:$HOME/.pub-cache/bin"
+export PATH="$HOME/fvm/default/bin:$HOME/fvm/bin:$PATH"
+# end Flutter stuffs
 
 # Custom scripts and secrets
 export CODE_BASE_REPO="$HOME/code"
@@ -42,6 +54,7 @@ source ~/.aliases
 source ~/.functions
 
 . "$HOME/.atuin/bin/env"
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
 
 eval "$(atuin init zsh)"
 bindkey '^p' atuin-up-search
@@ -51,3 +64,4 @@ bindkey '^n' atuin-down-search
 eval "$(starship init zsh)"
 # local end_time=$(gdate +%s%N)
 # echo "Starship init took: $(((end_time - start_time) / 1000000))ms"
+export JAVA_HOME=/opt/homebrew/opt/openjdk@17

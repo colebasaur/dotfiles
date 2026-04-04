@@ -15,6 +15,10 @@ return {
           -- ignored = true,
         },
       },
+      layout = {
+        preset = "default", -- or "ivy", "dropdown"
+        preview = "right", -- Move preview to the right
+      },
     },
     zen = {
       toggles = {

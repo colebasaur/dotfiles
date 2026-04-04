@@ -1,5 +1,6 @@
 return {
   "mfussenegger/nvim-dap-python",
+  ft = "python", -- Only load for Python files
   dependencies = { "mfussenegger/nvim-dap" },
   config = function()
     local dap_python = require("dap-python")

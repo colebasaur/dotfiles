@@ -2,7 +2,10 @@
 # https://ghostty.org/docs/config/reference
 
 # Main UI
-theme = dark:Catppuccin Mocha,light:Catppuccin Frappe
+# theme = dark:Catppuccin Mocha,light:Catppuccin Frappe
+theme = dark:Lovelace,light:Catppuccin Frappe
+# theme = dark:Spacedust,light:Catppuccin Frappe
+# theme = dark:Zenburn,light:Catppuccin Frappe
 macos-titlebar-style = hidden
 maximize = true
 

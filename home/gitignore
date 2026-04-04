@@ -21,3 +21,8 @@ pyrightconfig.json
 .python-version
 kls_database.db
 *.rendered.yaml
+.claude/
+.poc/
+.vscode/
+.go-version
+startup.log
