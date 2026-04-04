@@ -74,6 +74,7 @@ alias og='openapi-generator'
 alias k='kubectl'
 alias kns='kubectl config set-context --current --namespace'
 alias kctx='kubectx'
+alias kunset='kubectl config unset current-context'
 
 # zshrc re-source
 alias rz='source ~/.zshrc'
