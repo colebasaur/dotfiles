@@ -2,6 +2,11 @@
 -- Default autocmds that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/autocmds.lua
 -- Add any additional autocmds here
 
+-- Open file picker on startup when no file was passed (stdin guard set in init.lua)
+if vim.fn.argc() == 0 and not vim.g.started_with_stdin then
+  Snacks.picker.files()
+end
+
 ---- Disable autoformat for kotlin files
 vim.api.nvim_create_autocmd({ "FileType" }, {
   pattern = { "kotlin" },

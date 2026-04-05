@@ -20,6 +20,7 @@ return {
         preview = "right", -- Move preview to the right
       },
     },
+    dashboard = { enabled = false },
     zen = {
       toggles = {
         dim = false,
