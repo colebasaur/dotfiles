@@ -215,6 +215,40 @@ kexec() {
     fi
 }
 
+# Tmux
+
+tj() {
+    local dir=$(autojump "$@")
+    if [[ -z "$dir" || ! -d "$dir" ]]; then
+        echo "No autojump match for: $@"
+        return 1
+    fi
+
+    local name=$(basename "$dir" | tr '.' '-')
+
+    if tmux has-session -t="$name" 2>/dev/null; then
+        if [[ -n "$TMUX" ]]; then
+            tmux switch-client -t "$name"
+        else
+            tmux attach -t "$name"
+        fi
+    else
+        if [[ -n "$TMUX" ]]; then
+            tmux new-session -d -s "$name" -c "$dir" && tmux switch-client -t "$name"
+        else
+            tmux new-session -s "$name" -c "$dir"
+        fi
+    fi
+}
+
+tk() {
+    local session=$(tmux ls -F '#{session_name}' 2>/dev/null | fzf --prompt="Kill session: " --height=40% --reverse)
+    if [[ -n "$session" ]]; then
+        tmux kill-session -t "$session"
+        echo "Killed session: $session"
+    fi
+}
+
 # Docker
 
 dba() {

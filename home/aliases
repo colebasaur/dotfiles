@@ -85,5 +85,11 @@ alias ms='mergestat'
 # nvim
 alias n='nvim'
 
+# tmux
+alias t='tmux a || tmux'
+alias tl='tmux ls'
+alias tn='tmux new -s'
+alias td='tmux detach'
+
 # copy directory path to clipboard
 alias cdp='pwd | pbcopy'

@@ -34,6 +34,7 @@ brew "postgresql@14"
 
 # Dev tools
 brew "duti"
+brew "glab"
 brew "gnupg"
 brew "graphviz"
 brew "icu4c@76"
