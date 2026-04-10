@@ -57,6 +57,7 @@ compdef _git gm=git-merge
 alias grh='git reset HEAD'
 alias grhh='git reset HEAD --hard'
 alias gd='git diff'
+alias gdlc='git diff HEAD~1'
 alias gfs='git checkout $(git branch | fzf)'
 alias gfsa='git checkout $(git branch -a | fzf)'
 alias gmp='git checkout main || git checkout master && git pull'
