@@ -22,6 +22,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 export GOENV_ROOT="$HOME/.goenv"
 export PATH=\
 "$GOENV_ROOT/bin:"\
+"$PYENV_ROOT/shims:"\
 "$PYENV_ROOT/bin:"\
 "$HOME/.jenv/bin:"\
 "$HOME/.asdf/shims:"\
@@ -52,13 +53,14 @@ _init_pyenv() {
   unfunction pyenv python python3 pip pip3 2>/dev/null
   eval "$(command pyenv init --path)"
   eval "$(command pyenv init -)"
-  eval "$(command pyenv virtualenv-init -)"
+  [[ -z "$PYENV_VIRTUALENV_INIT" ]] && eval "$(command pyenv virtualenv-init -)"
 }
 pyenv()   { _init_pyenv; command pyenv "$@" }
 python()  { _init_pyenv; command python "$@" }
 python3() { _init_pyenv; command python3 "$@" }
 pip()     { _init_pyenv; command pip "$@" }
 pip3()    { _init_pyenv; command pip3 "$@" }
+eval "$(command pyenv virtualenv-init -)"
 
 # Jenv — lazy-loaded on first use
 export JAVA_HOME=/opt/homebrew/opt/openjdk@17
